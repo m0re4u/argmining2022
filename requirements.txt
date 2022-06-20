@@ -1,0 +1,7 @@
+notebook==6.4.12
+torch==1.11.0
+transformers==4.20.0
+pandas==1.4.2
+datasets==2.3.2
+seaborn==0.11.2
+sklearn==1.1.1
