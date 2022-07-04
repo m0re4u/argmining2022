@@ -2,7 +2,7 @@ import dataclasses
 import torch
 from torch.utils.data.dataloader import DataLoader
 from transformers.data.data_collator import DataCollator, InputDataClass
-from transformers import DefaultDataCollator
+from transformers import DataCollatorWithPadding
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler
 import transformers
@@ -10,10 +10,13 @@ import numpy as np
 from typing import List, Union, Dict
 
 
-class NLPDataCollator(DefaultDataCollator):
+class NLPDataCollator(DataCollatorWithPadding):
     """
     Extending the existing DataCollator to work with NLP dataset batches
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     def collate_batch(self, features: List[Union[InputDataClass, Dict]]) -> Dict[str, torch.Tensor]:
         print("test")
         first = features[0]
@@ -32,7 +35,7 @@ class NLPDataCollator(DefaultDataCollator):
           return batch
         else:
           # otherwise, revert to using the default collate_batch
-          return DefaultDataCollator().collate_batch(features)
+          return super().collate_batch(features)
 
 
 class StrIgnoreDevice(str):
