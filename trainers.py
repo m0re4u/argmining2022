@@ -18,7 +18,6 @@ class NLPDataCollator(DataCollatorWithPadding):
         super().__init__(*args, **kwargs)
 
     def collate_batch(self, features: List[Union[InputDataClass, Dict]]) -> Dict[str, torch.Tensor]:
-        print("test")
         first = features[0]
         if isinstance(first, dict):
           # NLP data sets current works presents features as lists of dictionary
