@@ -14,7 +14,7 @@ def map_label(example):
 
 
 class SharedTaskData():
-    def __init__(self, filename, ):
+    def __init__(self, filename):
         self.df = pd.read_csv(filename)
 
     def convert_to_hf_dataset(self, label_target, features=None):
@@ -26,7 +26,10 @@ class SharedTaskData():
         if label_target not in SharedTaskConstants.targets:
             raise ValueError("Not a valid target label")
         self.target = label_target
-        ds = Dataset.from_pandas(self.df, split="train")
+        ds_type = "train"
+        if features is not None:
+            ds_type = "test"
+        ds = Dataset.from_pandas(self.df, split=ds_type)
         ds = ds.map(map_label)
 
         if features is not None:
@@ -49,13 +52,13 @@ class SharedTaskConstants():
     targets = ['validity', 'novelty']
     validity_label_mapping = {
         -1: "not-valid",
-        0: "deafisible",  # can be excluded since test set does not contain these
+        0: "not-valid",  # can be excluded since test set does not contain these
         1: "valid",
     }
 
     novelty_label_mapping = {
         -1: "not-novel",
-        0: "borderline novel",  # can be excluded since test set does not contain these
+        0: "not-novel",  # can be excluded since test set does not contain these
         1: "novel",
     }
 

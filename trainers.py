@@ -131,7 +131,6 @@ class MultitaskTrainer(transformers.Trainer):
               collate_fn=self.data_collator.collate_batch,
             ),
         )
-
         return data_loader
 
     def get_train_dataloader(self):
@@ -143,4 +142,14 @@ class MultitaskTrainer(transformers.Trainer):
         return MultitaskDataloader({
             task_name: self.get_single_train_dataloader(task_name, task_dataset)
             for task_name, task_dataset in self.train_dataset.items()
+        })
+
+    def get_eval_dataloader(self, dataset=None):
+        active_ds = self.eval_dataset
+        if dataset is not None:
+            active_ds = dataset
+
+        return MultitaskDataloader({
+            task_name: self.get_single_train_dataloader(task_name, task_dataset)
+            for task_name, task_dataset in active_ds.items()
         })

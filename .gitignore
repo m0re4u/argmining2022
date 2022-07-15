@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 argmining2022_trainer/
+argmining2022_trainer_mtl/

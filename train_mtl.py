@@ -15,26 +15,24 @@ from trainers import MultitaskTrainer, NLPDataCollator
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
-def tokenize_function_val(examples):
+def _tokenize_fn(examples):
     batch_size = len(examples['Premise'])
     batched_inputs = [
         examples['topic'][i] + tokenizer.sep_token + \
         examples['Premise'][i] + tokenizer.sep_token + \
         examples['Conclusion'][i] for i in range(batch_size)
     ]
-    samples = tokenizer(batched_inputs, truncation=True, padding=True)
+    return tokenizer(batched_inputs, truncation=True, padding=True)
+
+
+def tokenize_function_val(examples):
+    samples = _tokenize_fn(examples)
     samples['labels'] = examples['validity_str']
     return samples
 
 
 def tokenize_function_nov(examples):
-    batch_size = len(examples['Premise'])
-    batched_inputs = [
-        examples['topic'][i] + tokenizer.sep_token + \
-        examples['Premise'][i] + tokenizer.sep_token + \
-        examples['Conclusion'][i] for i in range(batch_size)
-    ]
-    samples = tokenizer(batched_inputs, truncation=True, padding=True)
+    samples = _tokenize_fn(examples)
     samples['labels'] = examples['novelty_str']
     return samples
 
@@ -81,14 +79,6 @@ def main():
     tokenized_train_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     tokenized_dev_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
 
-    # We focus on predicting Validity label for now
-    model = AutoModelForSequenceClassification.from_pretrained(
-        checkpoint,
-        num_labels=train_dataset_validity.features['validity_str'].num_classes,
-        label2id=train_dataset_validity.features['validity_str']._str2int,
-        id2label={v:k for k, v in train_dataset_validity.features['validity_str']._str2int.items()},
-    )
-
     multitask_model = MultitaskModel.create(
         model_name=checkpoint,
         model_type_dict={
@@ -115,6 +105,7 @@ def main():
     training_args = TrainingArguments(
         "argmining2022_trainer_mtl",
         num_train_epochs=10,
+        # report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
         save_strategy="epoch",
