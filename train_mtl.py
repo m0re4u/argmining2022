@@ -48,9 +48,6 @@ def single_label_metrics(predictions, labels):
     return output_metrics
 
 def compute_metrics(p):
-    print(p.predictions)
-    print(p.label_ids)
-    print(p.inputs)
     preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
     return single_label_metrics(
         predictions=preds,
@@ -105,7 +102,7 @@ def main():
     training_args = TrainingArguments(
         "argmining2022_trainer_mtl",
         num_train_epochs=10,
-        # report_to="wandb",
+        report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
         save_strategy="epoch",
