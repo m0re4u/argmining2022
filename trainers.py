@@ -108,6 +108,7 @@ class MultitaskDataloader:
             task_name = self.task_name_list[task_choice]
             yield next(dataloader_iter_dict[task_name])
 
+
 class MultitaskTrainer(transformers.Trainer):
     def get_single_train_dataloader(self, task_name, train_dataset):
         """
