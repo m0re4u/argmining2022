@@ -11,6 +11,7 @@ from trainers import MultitaskTrainer, NLPDataCollator
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
+
 def _tokenize_fn(examples):
     batch_size = len(examples['Premise'])
     batched_inputs = [
@@ -47,12 +48,14 @@ def single_label_metrics(predictions, labels):
     }
     return output_metrics
 
+
 def compute_metrics(p):
     preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
     return single_label_metrics(
         predictions=preds,
         labels=p.label_ids
     )
+
 
 def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     """
@@ -66,6 +69,7 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     tokenized_train_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     tokenized_dev_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     return tokenized_train_dataset, tokenized_dev_dataset
+
 
 def main():
     train_data = SharedTaskData("TaskA_train.csv")
