@@ -66,8 +66,12 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
     tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
     tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
-    tokenized_train_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
-    tokenized_dev_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+    if 'roberta' in checkpoint:
+        column_names = ['input_ids', 'attention_mask', 'labels']
+    else:
+        column_names = ['input_ids', 'token_type_ids', 'attention_mask', 'labels']
+    tokenized_train_dataset.set_format(type='torch', columns=column_names)
+    tokenized_dev_dataset.set_format(type='torch', columns=column_names)
     return tokenized_train_dataset, tokenized_dev_dataset
 
 
