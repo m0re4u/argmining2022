@@ -13,7 +13,8 @@ from models import MultitaskModel
 from trainers import MultitaskTrainer, NLPDataCollator
 
 checkpoint = "/home/mreuver/SSSC_test/1_model_bert-base-uncased/10_19JUNE_TRAIN-size:20763"
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+tokenizer = AutoTokenizer.from_pretrained(checkpoint, from_tf=True)
+path_config = "/home/mreuver/SSSC_test/1_model_bert-base-uncased/10_19JUNE_TRAIN-size:20763/config.json"
 
 def tokenize_function_val(examples):
     batch_size = len(examples['Premise'])
@@ -81,7 +82,15 @@ def main():
     tokenized_train_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     tokenized_dev_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
 
-    intermed_model = MultitaskModel.create(
+    # intermed_model = MultitaskModel.make_intermed_model(
+    #     model_name=checkpoint,
+    #     model_type=transformers.AutoModelForSequenceClassification,
+    #     model_config=checkpoint
+    # )
+
+    #print(intermed_model)
+    
+    model = MultitaskModel.create_intermed(
         model_name=checkpoint,
         model_type_dict={
             "novelty": transformers.AutoModelForSequenceClassification,
@@ -93,7 +102,7 @@ def main():
         },
     )
 
-    intermed_model.classifier._name = "dummy"  # change classifier layer name so it will not be reused
+    #print(intermed_model["taskmodels_dict"])
 
     train_dataset = {
         "validity": tokenized_train_dataset_validity,
@@ -115,11 +124,12 @@ def main():
     )
 
     trainer = MultitaskTrainer(
-        model=multitask_model,
+        model=model,
         args=training_args,
         data_collator=NLPDataCollator(tokenizer=tokenizer),
         train_dataset=train_dataset,
-        eval_dataset=val_dataset
+        eval_dataset=val_dataset,
+        #batch_size=64
     )
     trainer.train()
 

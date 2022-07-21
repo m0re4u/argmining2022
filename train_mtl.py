@@ -1,8 +1,12 @@
-import argparse
+import os
+
+import numpy as np
+import seaborn as sns
 import torch
 import transformers
-from sklearn.metrics import classification_report
-from transformers import AutoTokenizer, TrainingArguments
+from sklearn.metrics import accuracy_score, classification_report, f1_score
+from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
+                          DataCollatorWithPadding, Trainer, TrainingArguments)
 
 from data import SharedTaskData
 from models import MultitaskModel
@@ -39,13 +43,10 @@ def single_label_metrics(predictions, labels):
     probs = softmax(preds)
     y_pred = torch.argmax(probs, dim=1)
     y_true = labels
-    report = classification_report(y_true=y_true, y_pred=y_pred, output_dict=True, zero_division=0)
-    output_metrics = {
-        'macro f1': report['macro avg']['f1-score'],
-        'accuracy': report['accuracy'],
-        'weighted f1': report['weighted avg']['f1-score'],
-    }
-    return output_metrics
+    f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='macro')
+    accuracy = accuracy_score(y_true, y_pred)
+    return {'f1': f1_micro_average, 'accuracy': accuracy}
+
 
 def compute_metrics(p):
     preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
@@ -54,27 +55,30 @@ def compute_metrics(p):
         labels=p.label_ids
     )
 
-def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
-    """
-    Prepare a training and development dataset for HF training. Includes tokenizations and casting to torch tensors.
-    """
-    train_dataset = train_dataset.convert_to_hf_dataset(target_task)
-    dev_dataset = dev_dataset.convert_to_hf_dataset(target_task, features=train_dataset.features)
-    assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
-    tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
-    tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
-    tokenized_train_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
-    tokenized_dev_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
-    return tokenized_train_dataset, tokenized_dev_dataset
 
 def main():
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
 
-    tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(train_data, dev_data, "novelty", tokenize_function_nov)
-    tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(train_data, dev_data, "validity", tokenize_function_val)
+    train_dataset_novelty = train_data.convert_to_hf_dataset("novelty")
+    train_dataset_validity = train_data.convert_to_hf_dataset("validity")
+    # Use feature mapping from training dataset to ensure features are mapped correctly
+    dev_dataset_novelty = dev_data.convert_to_hf_dataset("novelty", features=train_dataset_novelty.features)
+    dev_dataset_validity = dev_data.convert_to_hf_dataset("validity", features=train_dataset_validity.features)
 
-    # Create model
+    # Make sure internal label mapping is identical across datasets
+    assert train_dataset_validity.features['validity_str']._str2int == dev_dataset_validity.features['validity_str']._str2int
+    assert train_dataset_novelty.features['novelty_str']._str2int == dev_dataset_novelty.features['novelty_str']._str2int
+
+    tokenized_train_dataset_validity = train_dataset_validity.map(tokenize_function_val, batched=True)
+    tokenized_dev_dataset_validity = dev_dataset_validity.map(tokenize_function_val, batched=True)
+    tokenized_train_dataset_validity.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+    tokenized_dev_dataset_validity.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+    tokenized_train_dataset_novelty = train_dataset_novelty.map(tokenize_function_nov, batched=True)
+    tokenized_dev_dataset_novelty = dev_dataset_novelty.map(tokenize_function_nov, batched=True)
+    tokenized_train_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+    tokenized_dev_dataset_novelty.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+
     multitask_model = MultitaskModel.create(
         model_name=checkpoint,
         model_type_dict={
@@ -87,49 +91,35 @@ def main():
         },
     )
 
-    # Combine datasets
     train_dataset = {
-        "novelty": tokenized_train_dataset_novelty,
         "validity": tokenized_train_dataset_validity,
+        "novelty": tokenized_train_dataset_novelty
     }
 
     val_dataset = {
-        "novelty": tokenized_dev_dataset_novelty,
         "validity": tokenized_dev_dataset_validity,
+        "novelty": tokenized_dev_dataset_novelty
     }
 
-    # Arguments for training loop
+
     training_args = TrainingArguments(
         "argmining2022_trainer_mtl",
         num_train_epochs=10,
-        report_to="wandb",
+        # report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
         save_strategy="epoch",
-        label_names=['labels']
     )
 
-    # Go!
     trainer = MultitaskTrainer(
         model=multitask_model,
         args=training_args,
         data_collator=NLPDataCollator(tokenizer=tokenizer),
         train_dataset=train_dataset,
-        eval_dataset=val_dataset,
-        compute_metrics=compute_metrics
+        eval_dataset=val_dataset
     )
     trainer.train()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--use_model', default=None, type=str,
-                        help="Which model to load")
-    parser.add_argument('--eval_only', default=False, action='store_true',
-                        help="Whether to do training or evaluation only")
-    args = parser.parse_args()
-    config = vars(args)
-    print("Parameters:")
-    for k, v in config.items():
-        print(f"  {k:>21} : {v}")
     main()

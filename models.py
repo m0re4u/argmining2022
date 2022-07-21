@@ -28,11 +28,46 @@ class MultitaskModel(transformers.PreTrainedModel):
                 model_name,
                 config=model_config_dict[task_name],
             )
+            model.classifier._name = "dummy"  # change classifier layer name so it will not be reused
             if shared_encoder is None:
                 shared_encoder = getattr(model, cls.get_encoder_attr_name(model))
             else:
                 setattr(model, cls.get_encoder_attr_name(model), shared_encoder)
             taskmodels_dict[task_name] = model
+        return cls(encoder=shared_encoder, taskmodels_dict=taskmodels_dict)
+
+    @classmethod
+    def load_intermed_model(cls, model_name, config):
+        model = transformers.AutoModel.from_pretrained(
+            model_name,
+            from_tf=True,
+        )
+        classifier = transformers.AutoModelForSequenceClassification.from_config(config)
+        classifier.bert = model
+        return classifier
+    
+    @classmethod
+    def create_intermed(cls, model_name, model_type_dict, model_config_dict):
+        """
+        This creates a MultitaskModel using the model class and config objects
+        from single-task models.
+
+        We do this by creating each single-task model, and having them share
+        the same encoder transformer.
+        """
+        shared_encoder = None
+        taskmodels_dict = {}
+        for task_name, model_type in model_type_dict.items():
+            config = model_config_dict[task_name]
+            model = MultitaskModel.load_intermed_model(model_name, config)
+
+
+            if shared_encoder is None:
+                shared_encoder = getattr(model, cls.get_encoder_attr_name(model))
+            else:
+                setattr(model, cls.get_encoder_attr_name(model), shared_encoder)
+            taskmodels_dict[task_name] = model
+            #print(taskmodels_dict)
         return cls(encoder=shared_encoder, taskmodels_dict=taskmodels_dict)
 
     @classmethod
