@@ -2,7 +2,7 @@ import argparse
 import torch
 import transformers
 from sklearn.metrics import classification_report
-from transformers import AutoTokenizer, TrainingArguments
+from transformers import AutoTokenizer, TrainingArguments, set_seed
 
 from data import SharedTaskData
 from models import MultitaskModel
@@ -76,6 +76,11 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
 
 
 def main():
+    set_seed(config["pipeline"]["seed"])
+    # torch.backends.cudnn.benchmark = False
+    # os.environ['PYTHONHASHSEED'] = str(config["pipeline"]["seed"])
+    torch.backends.cudnn.deterministic = True
+
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
 
@@ -135,6 +140,7 @@ if __name__ == "__main__":
                         help="Which model to load")
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
+    parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
