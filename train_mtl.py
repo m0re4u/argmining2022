@@ -57,7 +57,7 @@ def compute_metrics(p):
     )
 
 
-def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
+def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_fn):
     """
     Prepare a training and development dataset for HF training. Includes tokenizations and casting to torch tensors.
     """
@@ -66,7 +66,7 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
     tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
     tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
-    if 'roberta' in checkpoint:
+    if 'roberta' in model_name:
         column_names = ['input_ids', 'attention_mask', 'labels']
     else:
         column_names = ['input_ids', 'token_type_ids', 'attention_mask', 'labels']
@@ -86,10 +86,20 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0):
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
 
-    tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(train_data, dev_data, "novelty",
-                                                                                  tokenize.tokenize_function_nov)
-    tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(train_data, dev_data, "validity",
-                                                                                    tokenize.tokenize_function_val)
+    tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(
+        use_model,
+        train_data,
+        dev_data,
+        "novelty",
+        tokenize.tokenize_function_nov
+    )
+    tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(
+        use_model,
+        train_data,
+        dev_data,
+        "validity",
+        tokenize.tokenize_function_val
+    )
 
     # Create model
     multitask_model = MultitaskModel.create(
