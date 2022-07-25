@@ -2,36 +2,36 @@ import argparse
 import torch
 import transformers
 from sklearn.metrics import classification_report
-from transformers import AutoTokenizer, TrainingArguments
+from transformers import AutoTokenizer, TrainingArguments, set_seed
 
 from data import SharedTaskData
 from models import MultitaskModel
 from trainers import MultitaskTrainer, NLPDataCollator
 
-checkpoint = "bert-base-uncased"
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
+class Tokenize:
+    def __init__(self, model_name):
+        self.model_name: str = model_name
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
 
-def _tokenize_fn(examples):
-    batch_size = len(examples['Premise'])
-    batched_inputs = [
-        examples['topic'][i] + tokenizer.sep_token + \
-        examples['Premise'][i] + tokenizer.sep_token + \
-        examples['Conclusion'][i] for i in range(batch_size)
-    ]
-    return tokenizer(batched_inputs, truncation=True, padding=True)
+    def _tokenize_fn(self, examples):
+        batch_size = len(examples['Premise'])
+        batched_inputs = [
+            examples['topic'][i] + self.tokenizer.sep_token + \
+            examples['Premise'][i] + self.tokenizer.sep_token + \
+            examples['Conclusion'][i] for i in range(batch_size)
+        ]
+        return self.tokenizer(batched_inputs, truncation=True, padding=True)
 
+    def tokenize_function_val(self, examples):
+        samples = self._tokenize_fn(examples)
+        samples['labels'] = examples['validity_str']
+        return samples
 
-def tokenize_function_val(examples):
-    samples = _tokenize_fn(examples)
-    samples['labels'] = examples['validity_str']
-    return samples
-
-
-def tokenize_function_nov(examples):
-    samples = _tokenize_fn(examples)
-    samples['labels'] = examples['novelty_str']
-    return samples
+    def tokenize_function_nov(self, examples):
+        samples = self._tokenize_fn(examples)
+        samples['labels'] = examples['novelty_str']
+        return samples
 
 
 def single_label_metrics(predictions, labels):
@@ -57,7 +57,7 @@ def compute_metrics(p):
     )
 
 
-def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
+def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_fn):
     """
     Prepare a training and development dataset for HF training. Includes tokenizations and casting to torch tensors.
     """
@@ -66,7 +66,7 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
     tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
     tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
-    if 'roberta' in checkpoint:
+    if 'roberta' in model_name:
         column_names = ['input_ids', 'attention_mask', 'labels']
     else:
         column_names = ['input_ids', 'token_type_ids', 'attention_mask', 'labels']
@@ -75,23 +75,42 @@ def prepare_data(train_dataset, dev_dataset, target_task, tokenizer_fn):
     return tokenized_train_dataset, tokenized_dev_dataset
 
 
-def main():
+def main(use_model: str = "bert-base-uncased", seed: int = 0):
+    set_seed(seed)
+    tokenize = Tokenize(use_model)
+
+    # torch.backends.cudnn.benchmark = False
+    # os.environ['PYTHONHASHSEED'] = str(config["pipeline"]["seed"])
+    torch.backends.cudnn.deterministic = True
+
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
 
-    tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(train_data, dev_data, "novelty", tokenize_function_nov)
-    tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(train_data, dev_data, "validity", tokenize_function_val)
+    tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(
+        use_model,
+        train_data,
+        dev_data,
+        "novelty",
+        tokenize.tokenize_function_nov
+    )
+    tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(
+        use_model,
+        train_data,
+        dev_data,
+        "validity",
+        tokenize.tokenize_function_val
+    )
 
     # Create model
     multitask_model = MultitaskModel.create(
-        model_name=checkpoint,
+        model_name=use_model,
         model_type_dict={
             "novelty": transformers.AutoModelForSequenceClassification,
             "validity": transformers.AutoModelForSequenceClassification,
         },
         model_config_dict={
-            "novelty": transformers.AutoConfig.from_pretrained(checkpoint, num_labels=2),
-            "validity": transformers.AutoConfig.from_pretrained(checkpoint, num_labels=2),
+            "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
+            "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
         },
     )
 
@@ -121,7 +140,7 @@ def main():
     trainer = MultitaskTrainer(
         model=multitask_model,
         args=training_args,
-        data_collator=NLPDataCollator(tokenizer=tokenizer),
+        data_collator=NLPDataCollator(tokenizer=tokenize.tokenizer),
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         compute_metrics=compute_metrics
@@ -135,9 +154,10 @@ if __name__ == "__main__":
                         help="Which model to load")
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
+    parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
     for k, v in config.items():
         print(f"  {k:>21} : {v}")
-    main()
+    main(config["use_model"], config["seed"])
