@@ -1,5 +1,6 @@
 import argparse
-from datasets import load_dataset, load_metric
+import evaluate
+from datasets import load_dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments
 
 def get_dataset_config(dataset):
@@ -11,12 +12,11 @@ def get_dataset_config(dataset):
 
 
 def compute_metrics(p):
-    f1_metric = load_metric('f1')
-    acc_metric = load_metric('accuracy')
-
+    f1_metric = evaluate.load('f1')
+    acc_metric = evaluate.load('accuracy')
     return {
-        'accuracy': acc_metric.compute(predictions=p.predictions, references=p.label_ids),
-        'f1': f1_metric.compute(predictions=p.predictions, references=p.label_ids)
+        'accuracy': acc_metric.compute(predictions=p.predictions.argmax(axis=1), references=p.label_ids),
+        'f1': f1_metric.compute(predictions=p.predictions.argmax(axis=1), references=p.label_ids, average='macro')
     }
 
 
