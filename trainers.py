@@ -1,19 +1,19 @@
 import math
 import time
+from typing import Dict, List, Optional, Union
 
+import numpy as np
 import torch
+import transformers
 from torch.utils.data import DataLoader, Dataset
-from transformers.data.data_collator import InputDataClass
-from transformers import DataCollatorWithPadding
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler
-import transformers
-import numpy as np
-from typing import List, Union, Dict, Optional
-
+from transformers import DataCollatorWithPadding
+from transformers.data.data_collator import InputDataClass
 from transformers.debug_utils import DebugOption
 from transformers.trainer_utils import speed_metrics
 
+from data import SharedTaskConstants
 
 TASK_NAMES = ["novelty", "validity"]
 
@@ -202,6 +202,7 @@ class MultitaskTrainer(transformers.Trainer):
         eval_loop = self.prediction_loop if self.args.use_legacy_prediction_loop else self.evaluation_loop
 
         output_dict = {}
+        output_extra_evaluation = {}
         for task_name in TASK_NAMES:
             print(f"Evaluating {task_name}")
             task_eval_dataloader = eval_dataloader.dataloader_dict[task_name]
@@ -212,6 +213,15 @@ class MultitaskTrainer(transformers.Trainer):
                 ignore_keys=ignore_keys,
                 metric_key_prefix=f"eval_{task_name}",
             )
+
+            softmax = torch.nn.Softmax(dim=1)
+            preds = torch.Tensor(output.predictions)
+            probs = softmax(preds)
+            y_pred = torch.argmax(probs, dim=1)
+            output_extra_evaluation[task_name] = {
+                'true': output.label_ids,
+                'pred': y_pred,
+            }
 
             total_batch_size = self.args.eval_batch_size * self.args.world_size
             output.metrics.update(
@@ -239,5 +249,14 @@ class MultitaskTrainer(transformers.Trainer):
         for task_name in TASK_NAMES:
             for metric, score in output_dict[task_name].items():
                 flattened_output_dict[f"{task_name}_{metric}"] = score
+
+        org_results = SharedTaskConstants.val_nov_metric(
+            output_extra_evaluation['validity']['pred'],
+            output_extra_evaluation['validity']['true'],
+            output_extra_evaluation['novelty']['pred'],
+            output_extra_evaluation['novelty']['true'],
+        )
+        self.log({'org_f1_macro': org_results['f1_macro']})
+        flattened_output_dict['org_f1_macro'] = org_results['f1_macro']
 
         return flattened_output_dict
