@@ -102,6 +102,11 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool 
         tokenize.tokenize_function_val
     )
 
+    if "ArgumentRelation" in use_model:
+        kwargs = {'pad_token_id': 1}
+    else:
+        kwargs = {}
+
     # Create model
     multitask_model = MultitaskModel.create(
         model_name=use_model,
@@ -110,26 +115,11 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool 
             "validity": transformers.AutoModelForSequenceClassification,
         },
         model_config_dict={
-            "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
-            "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
+            "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, **kwargs),
+            "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, **kwargs),
         },
         tensorflows=tensorflows
     )
-
-    if "ArgumentRelation" in use_model:
-        multitask_model = MultitaskModel.create(
-            model_name=use_model,
-            model_type_dict={
-                "novelty": transformers.AutoModelForSequenceClassification,
-                "validity": transformers.AutoModelForSequenceClassification,
-            },
-            model_config_dict={
-                "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, pad_token_id=1),
-                "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, pad_token_id=1),
-            },
-            tensorflows=tensorflows
-        )
-
 
     # Combine datasets
     train_dataset = {
