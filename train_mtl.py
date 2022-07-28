@@ -2,7 +2,7 @@ import argparse
 import torch
 import transformers
 from sklearn.metrics import classification_report
-from transformers import AutoTokenizer, TrainingArguments, set_seed, TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, TrainingArguments, set_seed
 
 from data import SharedTaskData
 from models import MultitaskModel
@@ -136,7 +136,7 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool 
     training_args = TrainingArguments(
         "argmining2022_trainer_mtl",
         num_train_epochs=10,
-        #report_to="wandb",
+        report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
         save_strategy="epoch",
@@ -159,7 +159,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_model', default=None, type=str,
                         help="Which model to load")
-    parser.add_argument('--tensorflows', default=False, type=bool)
+    parser.add_argument('--tensorflows', default=False, type=bool,
+                        help="enable loading from Tensorflow models")
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
     parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
