@@ -44,6 +44,21 @@ class SharedTaskData():
 
         return ds
 
+    def __getitem__(self, idx):
+        row = self.df.iloc[idx]
+        return (
+            {
+                'premise': row['Premise'],
+                'topic': row['topic'],
+                'conclusion': row['Conclusion'],
+            },
+            SharedTaskConstants.validity_label_mapping[row['Validity']],
+            SharedTaskConstants.novelty_label_mapping[row['Novelty']]
+        )
+
+    def __len__(self):
+        return len(self.df)
+
 class SharedTaskConstants():
     """
     Use these constants to interface with the data, not with the id2label used
