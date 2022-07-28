@@ -2,6 +2,8 @@
 
 See description of the task [here](https://phhei.github.io/ArgsValidNovel/).
 
+We are a team of CLTL PhDs
+
 
 ## Installation
 Install packages with `pip install -r requirements.txt`
