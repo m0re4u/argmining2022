@@ -1,6 +1,7 @@
 import transformers
 import torch.nn as nn
 
+
 class MultitaskModel(transformers.PreTrainedModel):
     def __init__(self, encoder, taskmodels_dict):
         """
