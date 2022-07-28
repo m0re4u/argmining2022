@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from sklearn.metrics import classification_report
 from tqdm import tqdm
 
-from data import SharedTaskData
+from data import SharedTaskData, SharedTaskConstants
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -67,19 +67,12 @@ def main(args):
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
 
-    local_mapping = {
-        'novel': 1,
-        'not-novel': 0,
-        'valid': 1,
-        'not-valid': 0
-    }
-
     y_true = {'novelty': [], 'validity': []}
     y_pred = {'novelty': [], 'validity': []}
 
     for sample, y_val, y_nov in tqdm(dev_data):
-        y_true['validity'].append(local_mapping[y_val])
-        y_true['novelty'].append(local_mapping[y_nov])
+        y_true['validity'].append(SharedTaskConstants.local_str_mapping[y_val])
+        y_true['novelty'].append(SharedTaskConstants.local_str_mapping[y_nov])
         x_val = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=0, goal='novelty')
         x_nov = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=0, goal='validity')
 
@@ -88,10 +81,10 @@ def main(args):
         response_val, response_nov = response
 
         pred_val = parse_response(response_val, 'valid')
-        y_pred['validity'].append(local_mapping[pred_val])
+        y_pred['validity'].append(SharedTaskConstants.local_str_mapping[pred_val])
 
         pred_nov = parse_response(response_nov, 'novel')
-        y_pred['novelty'].append(local_mapping[pred_nov])
+        y_pred['novelty'].append(SharedTaskConstants.local_str_mapping[pred_nov])
 
     print("Validity")
     results_validity = classification_report(
