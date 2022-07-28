@@ -10,9 +10,10 @@ from trainers import MultitaskTrainer, NLPDataCollator
 
 
 class Tokenize:
-    def __init__(self, model_name):
+    def __init__(self, model_name, tensorflows):
         self.model_name: str = model_name
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name,
+                                                       from_tf=tensorflows)
 
     def _tokenize_fn(self, examples):
         batch_size = len(examples['Premise'])
@@ -66,7 +67,7 @@ def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_
     assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
     tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
     tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
-    if 'roberta' in model_name:
+    if 'roberta' in model_name or 'ArgumentRelation' in model_name:
         column_names = ['input_ids', 'attention_mask', 'labels']
     else:
         column_names = ['input_ids', 'token_type_ids', 'attention_mask', 'labels']
@@ -75,9 +76,9 @@ def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_
     return tokenized_train_dataset, tokenized_dev_dataset
 
 
-def main(use_model: str = "bert-base-uncased", seed: int = 0):
+def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool = False):
     set_seed(seed)
-    tokenize = Tokenize(use_model)
+    tokenize = Tokenize(use_model, tensorflows)
 
     # torch.backends.cudnn.benchmark = False
     # os.environ['PYTHONHASHSEED'] = str(config["pipeline"]["seed"])
@@ -101,6 +102,11 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0):
         tokenize.tokenize_function_val
     )
 
+    if "ArgumentRelation" in use_model:
+        kwargs = {'pad_token_id': 1}
+    else:
+        kwargs = {}
+
     # Create model
     multitask_model = MultitaskModel.create(
         model_name=use_model,
@@ -109,9 +115,10 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0):
             "validity": transformers.AutoModelForSequenceClassification,
         },
         model_config_dict={
-            "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
-            "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2),
+            "novelty": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, **kwargs),
+            "validity": transformers.AutoConfig.from_pretrained(use_model, num_labels=2, **kwargs),
         },
+        tensorflows=tensorflows
     )
 
     # Combine datasets
@@ -152,6 +159,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_model', default=None, type=str,
                         help="Which model to load")
+    parser.add_argument('--tensorflows', default=False, type=bool,
+                        help="enable loading from Tensorflow models")
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
     parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
@@ -160,4 +169,5 @@ if __name__ == "__main__":
     print("Parameters:")
     for k, v in config.items():
         print(f"  {k:>21} : {v}")
-    main(config["use_model"], config["seed"])
+    main(config["use_model"], config["seed"], config["tensorflows"])
+
