@@ -37,7 +37,7 @@ def main(args):
     # Arguments for training loop
     training_args = TrainingArguments(
         f"intermediate_{args.use_model}_{args.dataset}",
-        num_train_epochs=10,
+        num_train_epochs=40,
         report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
@@ -49,6 +49,7 @@ def main(args):
     trainer = Trainer(
         model=model,
         args=training_args,
+        tokenizer=tokenizer,
         train_dataset=dataset['train_r1'],
         eval_dataset=dataset['dev_r1'],
         compute_metrics=compute_metrics
