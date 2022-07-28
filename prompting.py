@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 
 import openai
@@ -6,7 +7,8 @@ from dotenv import load_dotenv
 from sklearn.metrics import classification_report
 from tqdm import tqdm
 
-from data import SharedTaskData, SharedTaskConstants
+from data import SharedTaskConstants, SharedTaskData
+from baseline import print_results
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -38,7 +40,7 @@ def get_prompt(topic: str, premise: str, conclusion: str, prompt_style: int = 0,
     if goal == "novelty":
         task_prompt = "Is there a presence of novel premise-related content?"
     elif goal == "validity":
-        task_prompt = "Is there a logical inference that links the premise to the conclusion?"
+        task_prompt = "Is there a strict logical inference that links the premise to the conclusion?"
     else:
         raise ValueError(f"Unknown prompt task {goal}")
 
@@ -47,6 +49,12 @@ def get_prompt(topic: str, premise: str, conclusion: str, prompt_style: int = 0,
         prompt = f"""topic {topic}
 premise {premise}
 conclusion {conclusion}
+{task_prompt}
+"""
+    elif prompt_style == 1:
+        prompt = f"""TOPIC: {topic}
+PREMISE: {premise}
+CONCLUSION: {conclusion}
 {task_prompt}
 """
     else:
@@ -70,11 +78,12 @@ def main(args):
     y_true = {'novelty': [], 'validity': []}
     y_pred = {'novelty': [], 'validity': []}
 
+    dump_data = []
     for sample, y_val, y_nov in tqdm(dev_data):
         y_true['validity'].append(SharedTaskConstants.local_str_mapping[y_val])
         y_true['novelty'].append(SharedTaskConstants.local_str_mapping[y_nov])
-        x_val = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=0, goal='novelty')
-        x_nov = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=0, goal='validity')
+        x_val = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=args.prompt_style, goal='novelty')
+        x_nov = get_prompt(sample['topic'], sample['premise'], sample['conclusion'], prompt_style=args.prompt_style, goal='validity')
 
         response = gpt3([x_val, x_nov])
         assert len(response) == 2
@@ -86,28 +95,27 @@ def main(args):
         pred_nov = parse_response(response_nov, 'novel')
         y_pred['novelty'].append(SharedTaskConstants.local_str_mapping[pred_nov])
 
-    print("Validity")
-    results_validity = classification_report(
-        y_true['validity'],
-        y_pred['validity'],
-        target_names=['not-valid', 'valid'],
-        zero_division=0
-    )
-    print(results_validity)
+        dump_data.append({
+            'y_nov': y_nov,
+            'y_val': y_val,
+            'x_nov': x_nov,
+            'x_val': x_val,
+            'response_nov': response_nov,
+            'response_val': response_val,
+            'pred_nov': pred_nov,
+            'pred_val': pred_val,
+        })
 
-    print("Novelty")
-    results_novelty = classification_report(
-        y_true['novelty'],
-        y_pred['novelty'],
-        target_names=['not-novel', 'novel'],
-        zero_division=0
-    )
-    print(results_novelty)
+    # Write results to file as backup
+    with open(f'dump_prompt_{args.prompt_style}_results.json', 'w') as f:
+        json.dump(dump_data, f)
+
+    print_results(f"Prompting (style {args.prompt_style})", y_true, y_pred)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prompt_style', default=0, type=int, choices=[0],
+    parser.add_argument('--prompt_style', default=0, type=int, choices=[0, 1],
                         help="Which prompt style to use")
     args = parser.parse_args()
     config = vars(args)
