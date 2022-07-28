@@ -13,6 +13,7 @@ def print_results(baseline_name, y_true, y_pred):
         y_true['validity'],
         y_pred['validity'],
         target_names=['not-valid', 'valid'],
+        labels=[0,1],
         zero_division=0
     )
     print(results_validity)
@@ -22,6 +23,7 @@ def print_results(baseline_name, y_true, y_pred):
         y_true['novelty'],
         y_pred['novelty'],
         target_names=['not-novel', 'novel'],
+        labels=[0,1],
         zero_division=0
     )
     print(results_novelty)
