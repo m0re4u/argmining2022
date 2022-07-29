@@ -132,3 +132,4 @@ argmining2022_trainer/
 argmining2022_trainer_mtl/
 wandb/
 hftrainer_*/
+.idea
