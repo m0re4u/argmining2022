@@ -67,7 +67,7 @@ def get_examples(n: int, example_data, prompt_style: int, goal: str) -> str:
     if prompt_style == 2:
         # Random examples
         shown_example_idx = np.random.randint(0, len(example_data), size=n)
-    elif prompt_style == 4:
+    elif prompt_style in [4, 5]:
         # Harder, and shorter examples
         shown_example_idx = filter_harder_shorter_examples(example_data)
     else:
@@ -173,6 +173,15 @@ PREMISE: {premise}
 CONCLUSION: {conclusion}
 VALIDITY:"""
 
+    # Harder, shorter, separate examples
+    elif prompt_style == 5:
+        task_prompt['novelty'] = "NOVELTY:"
+        task_prompt['validity'] = "VALIDITY:"
+        prompt = f"""TOPIC: {topic}
+PREMISE: {premise}
+CONCLUSION: {conclusion}
+{task_prompt[goal]}"""
+
     else:
         raise ValueError(f"Unknown prompt style: {prompt_style}")
 
@@ -180,9 +189,7 @@ VALIDITY:"""
     if label is not None:
         if prompt_style in [0, 1]:
             label_str = 'no' if 'not' in label else 'yes'
-        elif prompt_style == 2:
-            label_str = label
-        elif prompt_style == 4:
+        elif prompt_style in [2, 4, 5]:
             label_str = label
         else:
             raise ValueError(f"Unknown prompt style: {prompt_style}")
@@ -205,7 +212,7 @@ def parse_response(api_response, label: str, prompt_style: int):
             return f"not-{label}"
 
     # Expecting the label
-    elif prompt_style in [2, 3, 4]:
+    elif prompt_style in [2, 3, 4, 5]:
         if f"not-{label}" in api_response['text']:
             return f"not-{label}"
         else:
@@ -240,7 +247,7 @@ def main(args):
             x_nov = f"{example_prompt_nov}\n\n{x_nov}"
 
         # Pass through model
-        if args.prompt_style in [1, 2]:
+        if args.prompt_style in [1, 2, 5]:
             response = gpt3([x_val, x_nov])
             assert len(response) == 2
             response_val, response_nov = response
@@ -270,7 +277,7 @@ def main(args):
         })
 
         # Ugly hack to adhere to rate limit (1 / s)
-        if args.prompt_style in [2, 3, 4]:
+        if args.prompt_style in [2, 3, 4, 5]:
             time.sleep(1)
 
     # Write results to file as backup
@@ -283,12 +290,14 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prompt_style', default=0, type=int, choices=[0, 1, 2, 3, 4],
+    parser.add_argument('--prompt_style', default=0, type=int, choices=[0, 1, 2, 3, 4, 5],
                         help="Which prompt style to use: "
-                             "0 baseline, 1 capitalized, "
-                             "2 random dynamic examples, "
-                             "3 static examples, merged prompts,"
-                             "4 hard short examples, merged prompts")
+                             "0 baseline, separate prompts; "
+                             "1 capitalized, separate prompts; "
+                             "2 random dynamic examples, separate prompts; "
+                             "3 static examples, merged prompts; "
+                             "4 hard short examples, merged prompts; "
+                             "5 hard short examples, separate prompts")
     parser.add_argument('--n_shot', default=0, type=int,
                         help="How many examples to give in the prompt")
     args = parser.parse_args()
