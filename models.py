@@ -14,7 +14,7 @@ class MultitaskModel(transformers.PreTrainedModel):
         self.taskmodels_dict = nn.ModuleDict(taskmodels_dict)
 
     @classmethod
-    def create(cls, model_name, model_type_dict, model_config_dict):
+    def create(cls, model_name, model_type_dict, model_config_dict, tensorflows=False):
         """
         This creates a MultitaskModel using the model class and config objects
         from single-task models.
@@ -28,7 +28,8 @@ class MultitaskModel(transformers.PreTrainedModel):
             model = model_type.from_pretrained(
                 model_name,
                 config=model_config_dict[task_name],
-                ignore_mismatched_sizes=True,
+                from_tf=tensorflows,
+                ignore_mismatched_sizes=True
             )
             if shared_encoder is None:
                 shared_encoder = getattr(model, cls.get_encoder_attr_name(model))
