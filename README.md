@@ -8,7 +8,6 @@ We are a team of awesome CLTL PhDs:
 - Urja
 - Lea
 - Selene
-- Jonathan
 
 
 ## Installation
