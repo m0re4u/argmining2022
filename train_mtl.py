@@ -1,4 +1,5 @@
 import argparse
+
 import torch
 import transformers
 from sklearn.metrics import classification_report
@@ -76,7 +77,14 @@ def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_
     return tokenized_train_dataset, tokenized_dev_dataset
 
 
-def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool = False):
+def main(
+        use_model: str = "bert-base-uncased",
+        seed: int = 0,
+        tensorflows: bool = False,
+        eval_only: bool = False,
+        learning_rate: float = 5e-05,
+        epochs: int = 10
+    ):
     set_seed(seed)
     tokenize = Tokenize(use_model, tensorflows)
 
@@ -134,8 +142,9 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool 
 
     # Arguments for training loop
     training_args = TrainingArguments(
-        "argmining2022_trainer_mtl",
-        num_train_epochs=10,
+        f"hftrainer_am_mtl_{use_model}_{epochs}_{learning_rate}_{seed}",
+        num_train_epochs=epochs,
+        learning_rate=learning_rate,
         report_to="wandb",
         logging_strategy="epoch",
         evaluation_strategy="epoch",
@@ -152,7 +161,11 @@ def main(use_model: str = "bert-base-uncased", seed: int = 0, tensorflows: bool 
         eval_dataset=val_dataset,
         compute_metrics=compute_metrics
     )
-    trainer.train()
+
+    if eval_only:
+        trainer.evaluate()
+    else:
+        trainer.train()
 
 
 if __name__ == "__main__":
@@ -164,10 +177,19 @@ if __name__ == "__main__":
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
     parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
+    parser.add_argument('--epochs', default=10, type=int, help="Number of epochs to train for.")
+    parser.add_argument('--learning_rate', '-l', default=5e-05, type=float, help="Learning rate hyperparameter.")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
     for k, v in config.items():
         print(f"  {k:>21} : {v}")
-    main(config["use_model"], config["seed"], config["tensorflows"])
 
+    main(
+        config["use_model"],
+        config["seed"],
+        config["tensorflows"],
+        config["eval_only"],
+        config["learning_rate"],
+        config["epochs"]
+    )

@@ -8,4 +8,5 @@ scikit-learn==1.1.1
 python-dotenv==0.20.0
 wandb==0.12.21
 evaluate==0.2.0
+openai==0.22.0
 
