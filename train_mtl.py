@@ -147,6 +147,9 @@ def main(
         learning_rate=learning_rate,
         report_to="wandb",
         logging_strategy="epoch",
+        metric_for_best_model="eval_org_f1_macro",
+        greater_is_better=True,
+        load_best_model_at_end=True,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         label_names=['labels']
@@ -166,6 +169,7 @@ def main(
         trainer.evaluate()
     else:
         trainer.train()
+        trainer.evaluate()
 
 
 if __name__ == "__main__":

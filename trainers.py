@@ -256,7 +256,7 @@ class MultitaskTrainer(transformers.Trainer):
             output_extra_evaluation['novelty']['pred'],
             output_extra_evaluation['novelty']['true'],
         )
-        self.log({'org_f1_macro': org_results['f1_macro']})
-        flattened_output_dict['org_f1_macro'] = org_results['f1_macro']
+        self.log({'eval_org_f1_macro': org_results['f1_macro']})
+        flattened_output_dict['eval_org_f1_macro'] = org_results['f1_macro']
 
         return flattened_output_dict
