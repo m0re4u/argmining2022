@@ -24,7 +24,7 @@
         -0.3131809
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -52,8 +52,8 @@
         -0.1343751
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -80,8 +80,8 @@
         -0.35370392
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -108,8 +108,8 @@
         -0.123676166
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -136,7 +136,7 @@
         -0.07847871
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -164,7 +164,7 @@
         -0.081279874
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -193,7 +193,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -220,7 +220,7 @@
         -0.44682837
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -248,7 +248,7 @@
         -0.36423346
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -304,7 +304,7 @@
         -0.1056187
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -388,8 +388,8 @@
         -0.054398317
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -416,8 +416,8 @@
         -0.06348099
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -444,8 +444,8 @@
         -0.43658102
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -472,8 +472,8 @@
         -0.38476175
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -500,8 +500,8 @@
         -0.12958531
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -556,8 +556,8 @@
         -0.7326068
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -584,7 +584,7 @@
         -0.2642465
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -612,7 +612,7 @@
         -0.25695512
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -668,7 +668,7 @@
         -0.12657605
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -696,7 +696,7 @@
         -0.2562839
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -752,8 +752,8 @@
         -0.9714502
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -780,7 +780,7 @@
         -0.7833202
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -808,7 +808,7 @@
         -0.54095215
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -836,7 +836,7 @@
         -0.15814431
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -864,7 +864,7 @@
         -0.3073304
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -892,7 +892,7 @@
         -0.41665685
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -920,7 +920,7 @@
         -0.86141604
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -948,8 +948,8 @@
         -0.950635
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -976,8 +976,8 @@
         -0.46297452
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1004,7 +1004,7 @@
         -0.03547917
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1032,7 +1032,7 @@
         -0.13591768
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1060,8 +1060,8 @@
         -0.5039511
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1088,7 +1088,7 @@
         -0.07904124
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1116,8 +1116,8 @@
         -0.10008214
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1145,7 +1145,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1172,8 +1172,8 @@
         -0.29224142
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1200,7 +1200,7 @@
         -0.02984362
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1228,7 +1228,7 @@
         -0.08952358
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1256,7 +1256,7 @@
         -0.40561473
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1284,7 +1284,7 @@
         -0.04008885
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1312,7 +1312,7 @@
         -0.43009892
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1340,8 +1340,8 @@
         -0.5711185
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -1369,7 +1369,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -1396,7 +1396,7 @@
         -0.08558138
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1425,7 +1425,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -1452,7 +1452,7 @@
         -0.14859302
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1480,7 +1480,7 @@
         -0.08769815
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1508,7 +1508,7 @@
         -0.120693214
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1536,8 +1536,8 @@
         -0.40598488
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -1564,7 +1564,7 @@
         -0.012179602
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1592,7 +1592,7 @@
         -0.45999134
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1620,8 +1620,8 @@
         -0.69773257
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -1648,7 +1648,7 @@
         -0.19741294
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1676,7 +1676,7 @@
         -0.38678163
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1705,7 +1705,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -1732,7 +1732,7 @@
         -0.522881
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1788,7 +1788,7 @@
         -0.15764399
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1816,7 +1816,7 @@
         -0.31701857
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1844,7 +1844,7 @@
         -0.112582944
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1928,7 +1928,7 @@
         -0.04217126
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1956,7 +1956,7 @@
         -0.067859046
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -1984,7 +1984,7 @@
         -0.5608352
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2012,7 +2012,7 @@
         -0.032642066
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2040,7 +2040,7 @@
         -0.54947984
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2068,7 +2068,7 @@
         -0.25470993
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2096,7 +2096,7 @@
         -0.3449364
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2124,8 +2124,8 @@
         -0.2817405
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2152,7 +2152,7 @@
         -0.04262491
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2181,7 +2181,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -2208,8 +2208,8 @@
         -0.4301048
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2236,8 +2236,8 @@
         -0.1354306
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2264,8 +2264,8 @@
         -0.3876576
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2292,7 +2292,7 @@
         -0.1148122
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2320,8 +2320,8 @@
         -0.7486643
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2348,7 +2348,7 @@
         -0.05624245
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2376,7 +2376,7 @@
         -0.37203467
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2404,7 +2404,7 @@
         -0.21398069
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2433,7 +2433,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2461,7 +2461,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2488,7 +2488,7 @@
         -0.04744176
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2516,7 +2516,7 @@
         -0.07291914
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2544,7 +2544,7 @@
         -0.11169613
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2572,7 +2572,7 @@
         -0.18036324
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2600,7 +2600,7 @@
         -0.06419409
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2628,7 +2628,7 @@
         -0.045944326
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2656,7 +2656,7 @@
         -0.061813604
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2684,7 +2684,7 @@
         -0.016002374
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2712,7 +2712,7 @@
         -0.09071114
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2740,8 +2740,8 @@
         -0.6380259
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2768,7 +2768,7 @@
         -0.011532897
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2796,8 +2796,8 @@
         -0.49857417
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2824,8 +2824,8 @@
         -0.089974
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2852,8 +2852,8 @@
         -0.17507477
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2880,7 +2880,7 @@
         -0.3607539
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -2908,8 +2908,8 @@
         -0.28488743
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2937,7 +2937,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -2964,8 +2964,8 @@
         -0.25838807
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -2992,7 +2992,7 @@
         -0.020843366
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3020,7 +3020,7 @@
         -0.1302045
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3048,7 +3048,7 @@
         -0.3027242
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3076,7 +3076,7 @@
         -0.10051684
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3105,7 +3105,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -3132,7 +3132,7 @@
         -0.7779917
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3160,7 +3160,7 @@
         -0.06481184
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3188,7 +3188,7 @@
         -0.1448967
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3216,8 +3216,8 @@
         -0.20807071
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -3272,7 +3272,7 @@
         -0.20943794
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3300,7 +3300,7 @@
         -0.13076866
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3328,7 +3328,7 @@
         -0.21898088
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3356,7 +3356,7 @@
         -0.09471784
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3384,8 +3384,8 @@
         -0.10299415
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -3412,7 +3412,7 @@
         -0.43889144
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3440,7 +3440,7 @@
         -0.19679427
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3468,7 +3468,7 @@
         -0.7620279
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3496,7 +3496,7 @@
         -0.48982012
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3524,7 +3524,7 @@
         -0.06750233
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3552,7 +3552,7 @@
         -0.40918016
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3580,7 +3580,7 @@
         -0.8063496
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3608,7 +3608,7 @@
         -0.09302796
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3636,7 +3636,7 @@
         -0.044513047
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3664,7 +3664,7 @@
         -0.5272856
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3720,8 +3720,8 @@
         -0.17071797
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -3832,7 +3832,7 @@
         -0.47586972
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3860,7 +3860,7 @@
         -0.051251307
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3888,7 +3888,7 @@
         -0.64834684
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3916,7 +3916,7 @@
         -0.08584419
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3944,7 +3944,7 @@
         -0.4012344
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -3972,7 +3972,7 @@
         -0.62122643
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4001,7 +4001,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4028,8 +4028,8 @@
         -0.7711715
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4056,7 +4056,7 @@
         -0.57401425
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4084,7 +4084,7 @@
         -0.020387262
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4112,8 +4112,8 @@
         -0.31048223
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4168,7 +4168,7 @@
         -0.033564307
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4196,7 +4196,7 @@
         -0.035987377
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4224,7 +4224,7 @@
         -0.056853738
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4252,8 +4252,8 @@
         -0.21829651
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4280,8 +4280,8 @@
         -0.49100456
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4308,7 +4308,7 @@
         -0.16343375
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4336,7 +4336,7 @@
         -0.062644884
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4364,7 +4364,7 @@
         -0.17172894
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4392,7 +4392,7 @@
         -0.09839379
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4420,8 +4420,8 @@
         -0.4700617
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -4448,7 +4448,7 @@
         -0.33880976
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4477,7 +4477,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -4504,7 +4504,7 @@
         -0.094963
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4532,7 +4532,7 @@
         -0.27511278
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4560,7 +4560,7 @@
         -0.068415
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4588,7 +4588,7 @@
         -0.116214044
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4616,7 +4616,7 @@
         -0.09366943
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4644,7 +4644,7 @@
         -0.118467994
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4672,7 +4672,7 @@
         -0.07233244
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4700,7 +4700,7 @@
         -0.020473465
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4728,7 +4728,7 @@
         -0.1706631
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4756,7 +4756,7 @@
         -0.38278422
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4784,7 +4784,7 @@
         -0.3091436
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4812,7 +4812,7 @@
         -0.088499255
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4840,7 +4840,7 @@
         -0.01679398
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4868,7 +4868,7 @@
         -0.0116616385
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4924,7 +4924,7 @@
         -0.46232408
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -4953,7 +4953,7 @@
       ]
     },
     "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -4980,7 +4980,7 @@
         -0.07795251
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5008,7 +5008,7 @@
         -0.12215241
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5036,7 +5036,7 @@
         -0.027239485
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5064,7 +5064,7 @@
         -0.03721236
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5092,7 +5092,7 @@
         -0.049466625
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5120,8 +5120,8 @@
         -0.6848347
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -5148,8 +5148,8 @@
         -0.23895602
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -5176,7 +5176,7 @@
         -0.006671264
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5204,7 +5204,7 @@
         -0.24465649
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5260,8 +5260,8 @@
         -0.3980709
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "novel",
@@ -5288,7 +5288,7 @@
         -0.02162554
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5316,7 +5316,7 @@
         -0.43750107
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5344,7 +5344,7 @@
         -0.16476257
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5400,7 +5400,7 @@
         -0.72167355
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5428,8 +5428,8 @@
         -0.19371413
       ]
     },
-    "pred_nov": "novel",
-    "pred_val": "valid"
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
   },
   {
     "y_nov": "not-novel",
@@ -5456,7 +5456,7 @@
         -0.10649663
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5484,7 +5484,7 @@
         -0.11760209
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5512,7 +5512,7 @@
         -0.14661677
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5540,7 +5540,7 @@
         -0.062001117
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5596,7 +5596,7 @@
         -0.17091362
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5624,7 +5624,7 @@
         -0.098320924
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   },
   {
@@ -5652,7 +5652,7 @@
         -0.048414268
       ]
     },
-    "pred_nov": "novel",
+    "pred_nov": "not-novel",
     "pred_val": "valid"
   }
 ]

@@ -3,8 +3,6 @@ from typing import Dict
 import numpy as np
 import pandas as pd
 from datasets import Dataset
-import numpy as np
-from typing import Dict
 
 
 def map_label(example):
@@ -49,6 +47,19 @@ class SharedTaskData():
 
         return ds
 
+    def count_statistics(self):
+        """
+        Print how many samples there are in the dataset according to label combination
+        """
+        dataset = self.df
+        dataset['Validity'] = dataset['Validity'].apply(lambda x: -1 if x == 0 else x)
+        dataset['Novelty'] = dataset['Novelty'].apply(lambda x: -1 if x == 0 else x)
+        label_combinations = dataset.groupby(by=['Validity', 'Novelty'])
+
+        for index, group in label_combinations:
+            print(f'Validity: {index[0]}, Novelty: {index[1]}')
+            print(f'\t{len(group)}')
+
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         return (
@@ -63,6 +74,7 @@ class SharedTaskData():
 
     def __len__(self):
         return len(self.df)
+
 
 class SharedTaskConstants():
     """
@@ -93,100 +105,112 @@ class SharedTaskConstants():
     }
 
     @staticmethod
-    def val_nov_metric(is_validity: np.ndarray, should_validity: np.ndarray, is_novelty: np.ndarray, should_novelty: np.ndarray) -> Dict[str, float]:
+    def val_nov_metric(is_validity: np.ndarray, should_validity: np.ndarray, is_novelty: np.ndarray,
+                       should_novelty: np.ndarray) -> Dict[str, float]:
         ret = dict()
 
         ret_base_help = {
-        "true_positive_validity": np.sum(np.where(
-            np.all(np.stack([is_validity >= .5, should_validity >= .5]), axis=0),
-            1, 0)),
-        "true_positive_novelty": np.sum(np.where(
-            np.all(np.stack([is_novelty >= .5, should_novelty >= .5]), axis=0),
-            1, 0)),
-        "true_positive_valid_novel": np.sum(np.where(
-            np.all(np.stack([is_validity >= .5, is_novelty >= .5,
-                                   should_validity >= .5, should_novelty >= .5]), axis=0),
-            1, 0)),
-        "true_positive_nonvalid_novel": np.sum(np.where(
-            np.all(np.stack([is_validity < .5, is_novelty >= .5,
-                                   should_validity < .5, should_novelty >= .5]), axis=0),
-            1, 0)),
-        "true_positive_valid_nonnovel": np.sum(np.where(
-            np.all(np.stack([is_validity >= .5, is_novelty < .5,
-                                   should_validity >= .5, should_novelty < .5]), axis=0),
-            1, 0)),
-        "true_positive_nonvalid_nonnovel": np.sum(np.where(
-            np.all(np.stack([is_validity < .5, is_novelty < .5,
-                                   should_validity < .5, should_novelty < .5]), axis=0),
-            1, 0)),
-        "classified_positive_validity": np.sum(np.where(is_validity >= .5, 1, 0)),
-        "classified_positive_novelty": np.sum(np.where(is_novelty >= .5, 1, 0)),
-        "classified_positive_valid_novel": np.sum(np.where(
-            np.all(np.stack([is_validity >= .5, is_novelty >= .5]), axis=0),
-            1, 0)),
-        "classified_positive_nonvalid_novel": np.sum(np.where(
-            np.all(np.stack([is_validity < .5, is_novelty >= .5]), axis=0),
-            1, 0)),
-        "classified_positive_valid_nonnovel": np.sum(np.where(
-            np.all(np.stack([is_validity >= .5, is_novelty < .5]), axis=0),
-            1, 0)),
-        "classified_positive_nonvalid_nonnovel": np.sum(np.where(
-            np.all(np.stack([is_validity < .5, is_novelty < .5]), axis=0),
-            1, 0)),
-        "indeed_positive_validity": np.sum(np.where(should_validity >= .5, 1, 0)),
-        "indeed_positive_novelty": np.sum(np.where(should_novelty >= .5, 1, 0)),
-        "indeed_positive_valid_novel": np.sum(np.where(
-            np.all(np.stack([should_validity >= .5, should_novelty >= .5]), axis=0),
-            1, 0)),
-        "indeed_positive_nonvalid_novel": np.sum(np.where(
-            np.all(np.stack([should_validity < .5, should_novelty >= .5]), axis=0),
-            1, 0)),
-        "indeed_positive_valid_nonnovel": np.sum(np.where(
-            np.all(np.stack([should_validity >= .5, should_novelty < .5]), axis=0),
-            1, 0)),
-        "indeed_positive_nonvalid_nonnovel": np.sum(np.where(
-            np.all(np.stack([should_validity < .5, should_novelty < .5]), axis=0),
-            1, 0)),
+            "true_positive_validity": np.sum(np.where(
+                np.all(np.stack([is_validity >= .5, should_validity >= .5]), axis=0),
+                1, 0)),
+            "true_positive_novelty": np.sum(np.where(
+                np.all(np.stack([is_novelty >= .5, should_novelty >= .5]), axis=0),
+                1, 0)),
+            "true_positive_valid_novel": np.sum(np.where(
+                np.all(np.stack([is_validity >= .5, is_novelty >= .5,
+                                 should_validity >= .5, should_novelty >= .5]), axis=0),
+                1, 0)),
+            "true_positive_nonvalid_novel": np.sum(np.where(
+                np.all(np.stack([is_validity < .5, is_novelty >= .5,
+                                 should_validity < .5, should_novelty >= .5]), axis=0),
+                1, 0)),
+            "true_positive_valid_nonnovel": np.sum(np.where(
+                np.all(np.stack([is_validity >= .5, is_novelty < .5,
+                                 should_validity >= .5, should_novelty < .5]), axis=0),
+                1, 0)),
+            "true_positive_nonvalid_nonnovel": np.sum(np.where(
+                np.all(np.stack([is_validity < .5, is_novelty < .5,
+                                 should_validity < .5, should_novelty < .5]), axis=0),
+                1, 0)),
+            "classified_positive_validity": np.sum(np.where(is_validity >= .5, 1, 0)),
+            "classified_positive_novelty": np.sum(np.where(is_novelty >= .5, 1, 0)),
+            "classified_positive_valid_novel": np.sum(np.where(
+                np.all(np.stack([is_validity >= .5, is_novelty >= .5]), axis=0),
+                1, 0)),
+            "classified_positive_nonvalid_novel": np.sum(np.where(
+                np.all(np.stack([is_validity < .5, is_novelty >= .5]), axis=0),
+                1, 0)),
+            "classified_positive_valid_nonnovel": np.sum(np.where(
+                np.all(np.stack([is_validity >= .5, is_novelty < .5]), axis=0),
+                1, 0)),
+            "classified_positive_nonvalid_nonnovel": np.sum(np.where(
+                np.all(np.stack([is_validity < .5, is_novelty < .5]), axis=0),
+                1, 0)),
+            "indeed_positive_validity": np.sum(np.where(should_validity >= .5, 1, 0)),
+            "indeed_positive_novelty": np.sum(np.where(should_novelty >= .5, 1, 0)),
+            "indeed_positive_valid_novel": np.sum(np.where(
+                np.all(np.stack([should_validity >= .5, should_novelty >= .5]), axis=0),
+                1, 0)),
+            "indeed_positive_nonvalid_novel": np.sum(np.where(
+                np.all(np.stack([should_validity < .5, should_novelty >= .5]), axis=0),
+                1, 0)),
+            "indeed_positive_valid_nonnovel": np.sum(np.where(
+                np.all(np.stack([should_validity >= .5, should_novelty < .5]), axis=0),
+                1, 0)),
+            "indeed_positive_nonvalid_nonnovel": np.sum(np.where(
+                np.all(np.stack([should_validity < .5, should_novelty < .5]), axis=0),
+                1, 0)),
         }
 
         ret_help = {
-        "precision_validity": ret_base_help["true_positive_validity"] /
-                              max(1, ret_base_help["classified_positive_validity"]),
-        "precision_novelty": ret_base_help["true_positive_novelty"] /
-                             max(1, ret_base_help["classified_positive_novelty"]),
-        "recall_validity": ret_base_help["true_positive_validity"] /
-                           max(1, ret_base_help["indeed_positive_validity"]),
-        "recall_novelty": ret_base_help["true_positive_novelty"] /
-                          max(1, ret_base_help["indeed_positive_novelty"]),
-        "precision_valid_novel": ret_base_help["true_positive_valid_novel"] /
-                                 max(1, ret_base_help["classified_positive_valid_novel"]),
-        "precision_valid_nonnovel": ret_base_help["true_positive_valid_nonnovel"] /
-                                    max(1, ret_base_help["classified_positive_valid_nonnovel"]),
-        "precision_nonvalid_novel": ret_base_help["true_positive_nonvalid_novel"] /
-                                    max(1, ret_base_help["classified_positive_nonvalid_novel"]),
-        "precision_nonvalid_nonnovel": ret_base_help["true_positive_nonvalid_nonnovel"] /
-                                       max(1, ret_base_help["classified_positive_nonvalid_nonnovel"]),
-        "recall_valid_novel": ret_base_help["true_positive_valid_novel"] /
-                              max(1, ret_base_help["indeed_positive_valid_novel"]),
-        "recall_valid_nonnovel": ret_base_help["true_positive_valid_nonnovel"] /
-                                 max(1, ret_base_help["indeed_positive_valid_nonnovel"]),
-        "recall_nonvalid_novel": ret_base_help["true_positive_nonvalid_novel"] /
-                                 max(1, ret_base_help["indeed_positive_nonvalid_novel"]),
-        "recall_nonvalid_nonnovel": ret_base_help["true_positive_nonvalid_nonnovel"] /
-                                    max(1, ret_base_help["indeed_positive_nonvalid_nonnovel"])
+            "precision_validity": ret_base_help["true_positive_validity"] /
+                                  max(1, ret_base_help["classified_positive_validity"]),
+            "precision_novelty": ret_base_help["true_positive_novelty"] /
+                                 max(1, ret_base_help["classified_positive_novelty"]),
+            "recall_validity": ret_base_help["true_positive_validity"] /
+                               max(1, ret_base_help["indeed_positive_validity"]),
+            "recall_novelty": ret_base_help["true_positive_novelty"] /
+                              max(1, ret_base_help["indeed_positive_novelty"]),
+            "precision_valid_novel": ret_base_help["true_positive_valid_novel"] /
+                                     max(1, ret_base_help["classified_positive_valid_novel"]),
+            "precision_valid_nonnovel": ret_base_help["true_positive_valid_nonnovel"] /
+                                        max(1, ret_base_help["classified_positive_valid_nonnovel"]),
+            "precision_nonvalid_novel": ret_base_help["true_positive_nonvalid_novel"] /
+                                        max(1, ret_base_help["classified_positive_nonvalid_novel"]),
+            "precision_nonvalid_nonnovel": ret_base_help["true_positive_nonvalid_nonnovel"] /
+                                           max(1, ret_base_help["classified_positive_nonvalid_nonnovel"]),
+            "recall_valid_novel": ret_base_help["true_positive_valid_novel"] /
+                                  max(1, ret_base_help["indeed_positive_valid_novel"]),
+            "recall_valid_nonnovel": ret_base_help["true_positive_valid_nonnovel"] /
+                                     max(1, ret_base_help["indeed_positive_valid_nonnovel"]),
+            "recall_nonvalid_novel": ret_base_help["true_positive_nonvalid_novel"] /
+                                     max(1, ret_base_help["indeed_positive_nonvalid_novel"]),
+            "recall_nonvalid_nonnovel": ret_base_help["true_positive_nonvalid_nonnovel"] /
+                                        max(1, ret_base_help["indeed_positive_nonvalid_nonnovel"])
         }
 
         ret.update({
-        "f1_validity": 2 * ret_help["precision_validity"] * ret_help["recall_validity"] / max(1e-4, ret_help["precision_validity"] + ret_help["recall_validity"]),
-        "f1_novelty": 2 * ret_help["precision_novelty"] * ret_help["recall_novelty"] / max(1e-4, ret_help["precision_novelty"] + ret_help["recall_novelty"]),
-        "f1_valid_novel": 2 * ret_help["precision_valid_novel"] * ret_help["recall_valid_novel"] / max(1e-4, ret_help["precision_valid_novel"] + ret_help["recall_valid_novel"]),
-        "f1_valid_nonnovel": 2 * ret_help["precision_valid_nonnovel"] * ret_help["recall_valid_nonnovel"] / max(1e-4, ret_help["precision_valid_nonnovel"] + ret_help["recall_valid_nonnovel"]),
-        "f1_nonvalid_novel": 2 * ret_help["precision_nonvalid_novel"] * ret_help["recall_nonvalid_novel"] / max(1e-4, ret_help["precision_nonvalid_novel"] + ret_help["recall_nonvalid_novel"]),
-        "f1_nonvalid_nonnovel": 2 * ret_help["precision_nonvalid_nonnovel"] * ret_help["recall_nonvalid_nonnovel"] / max(1e-4, ret_help["precision_nonvalid_nonnovel"] + ret_help["recall_nonvalid_nonnovel"])
+            "f1_validity": 2 * ret_help["precision_validity"] * ret_help["recall_validity"] / max(1e-4, ret_help[
+                "precision_validity"] + ret_help["recall_validity"]),
+            "f1_novelty": 2 * ret_help["precision_novelty"] * ret_help["recall_novelty"] / max(1e-4, ret_help[
+                "precision_novelty"] + ret_help["recall_novelty"]),
+            "f1_valid_novel": 2 * ret_help["precision_valid_novel"] * ret_help["recall_valid_novel"] / max(1e-4,
+                                                                                                           ret_help[
+                                                                                                               "precision_valid_novel"] +
+                                                                                                           ret_help[
+                                                                                                               "recall_valid_novel"]),
+            "f1_valid_nonnovel": 2 * ret_help["precision_valid_nonnovel"] * ret_help["recall_valid_nonnovel"] / max(
+                1e-4, ret_help["precision_valid_nonnovel"] + ret_help["recall_valid_nonnovel"]),
+            "f1_nonvalid_novel": 2 * ret_help["precision_nonvalid_novel"] * ret_help["recall_nonvalid_novel"] / max(
+                1e-4, ret_help["precision_nonvalid_novel"] + ret_help["recall_nonvalid_novel"]),
+            "f1_nonvalid_nonnovel": 2 * ret_help["precision_nonvalid_nonnovel"] * ret_help[
+                "recall_nonvalid_nonnovel"] / max(1e-4, ret_help["precision_nonvalid_nonnovel"] + ret_help[
+                "recall_nonvalid_nonnovel"])
         })
 
         ret.update({
-        "f1_macro": (ret["f1_valid_novel"]+ret["f1_valid_nonnovel"]+ret["f1_nonvalid_novel"]+ret["f1_nonvalid_nonnovel"])/4
+            "f1_macro": (ret["f1_valid_novel"] + ret["f1_valid_nonnovel"] + ret["f1_nonvalid_novel"] + ret[
+                "f1_nonvalid_nonnovel"]) / 4
         })
 
         return ret
@@ -207,11 +231,13 @@ if __name__ == "__main__":
     print("Novelty - Val")
     val_data = SharedTaskData("TaskA_dev.csv")
     print(train_dataset_novelty.features)
-    val_dataset_novelty = val_data.convert_to_hf_dataset(label_target='novelty', features=train_dataset_novelty.features)
+    val_dataset_novelty = val_data.convert_to_hf_dataset(label_target='novelty',
+                                                         features=train_dataset_novelty.features)
     print(val_dataset_novelty.features['novelty_str']._str2int)
     print(len(val_dataset_novelty))
 
     print("Validity - Val")
-    val_dataset_validity = val_data.convert_to_hf_dataset(label_target='validity', features=train_dataset_validity.features)
+    val_dataset_validity = val_data.convert_to_hf_dataset(label_target='validity',
+                                                          features=train_dataset_validity.features)
     print(val_dataset_validity.features['validity_str']._str2int)
     print(len(val_dataset_validity))
