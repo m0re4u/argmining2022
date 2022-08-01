@@ -1,9 +1,31 @@
-from data import SharedTaskData, SharedTaskConstants
+import json
+from collections import Counter
 
 import numpy as np
-from collections import Counter
-from tqdm import tqdm
 from sklearn.metrics import classification_report
+from tqdm import tqdm
+
+from data import SharedTaskData, SharedTaskConstants
+
+
+def evaluate_from_file(file_path):
+    # Prepare storage of labels and dumpables
+    y_true = {'novelty': [], 'validity': []}
+    y_pred = {'novelty': [], 'validity': []}
+
+    with open(file_path, "r") as f:
+        predictions = json.load(f)
+
+    for el in predictions:
+        # Get true labels
+        y_true['validity'].append(SharedTaskConstants.local_str_mapping[el['y_val']])
+        y_true['novelty'].append(SharedTaskConstants.local_str_mapping[el['y_nov']])
+
+        # Get true labels
+        y_pred['validity'].append(SharedTaskConstants.local_str_mapping[el['pred_val']])
+        y_pred['novelty'].append(SharedTaskConstants.local_str_mapping[el['pred_nov']])
+
+    print_results(f"Evaluation results for file: {file_path}", y_true, y_pred)
 
 
 def print_results(baseline_name, y_true, y_pred):
@@ -13,7 +35,7 @@ def print_results(baseline_name, y_true, y_pred):
         y_true['validity'],
         y_pred['validity'],
         target_names=['not-valid', 'valid'],
-        labels=[0,1],
+        labels=[0, 1],
         zero_division=0
     )
     print(results_validity)
@@ -23,7 +45,7 @@ def print_results(baseline_name, y_true, y_pred):
         y_true['novelty'],
         y_pred['novelty'],
         target_names=['not-novel', 'novel'],
-        labels=[0,1],
+        labels=[0, 1],
         zero_division=0
     )
     print(results_novelty)
@@ -59,6 +81,7 @@ def main():
 
     print_results('random', y_true, y_pred_random)
     print_results('majority', y_true, y_pred_majority)
+
 
 if __name__ == "__main__":
     main()

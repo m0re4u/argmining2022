@@ -16,7 +16,7 @@ def map_label(example):
     return example
 
 
-class SharedTaskData():
+class SharedTaskData:
     def __init__(self, filename):
         self.df = pd.read_csv(filename)
 
@@ -76,7 +76,7 @@ class SharedTaskData():
         return len(self.df)
 
 
-class SharedTaskConstants():
+class SharedTaskConstants:
     """
     Use these constants to interface with the data, not with the id2label used
     inside the Huggingface models!!
