@@ -8,7 +8,7 @@ from tqdm import tqdm
 from data import SharedTaskData, SharedTaskConstants
 
 
-def evaluate_from_file(file_path):
+def evaluate_from_file(file_path:str):
     # Prepare storage of labels and dumpables
     y_true = {'novelty': [], 'validity': []}
     y_pred = {'novelty': [], 'validity': []}
@@ -28,7 +28,7 @@ def evaluate_from_file(file_path):
     print_results(f"Evaluation results for file: {file_path}", y_true, y_pred)
 
 
-def print_results(baseline_name, y_true, y_pred):
+def print_results(baseline_name: str, y_true: dict, y_pred: dict):
     print(f"==== {baseline_name} ====")
     print("Validity")
     results_validity = classification_report(

@@ -38,7 +38,7 @@ def gpt3(prompts, model="text-davinci-002"):
     ]
 
 
-def filter_harder_shorter_examples(data):
+def filter_harder_shorter_examples(data, goal: str = ''):
     """
     Get 4 samples, all combinations of novelty/validity, choosing the less confident and shorter ones (pay less)
     """
@@ -54,7 +54,12 @@ def filter_harder_shorter_examples(data):
     data = data.sort_values(by="prompt_length")
 
     # Group and get a representative sample
-    grouped = data.groupby(by=['Validity', 'Validity-Confidence', 'Novelty', 'Novelty-Confidence']).first()
+    if goal == 'validity':
+        grouped = data.groupby(by=['Validity', 'Validity-Confidence']).head(2)
+    elif goal == 'novelty':
+        grouped = data.groupby(by=['Novelty', 'Novelty-Confidence']).head(2)
+    else:
+        grouped = data.groupby(by=['Validity', 'Validity-Confidence', 'Novelty', 'Novelty-Confidence']).first()
 
     return grouped['index'].values
 
@@ -70,6 +75,9 @@ def get_examples(n: int, example_data, prompt_style: int, goal: str) -> str:
     elif prompt_style in [4, 5]:
         # Harder, and shorter examples
         shown_example_idx = filter_harder_shorter_examples(example_data)
+    elif prompt_style in [6]:
+        # Harder, and shorter examples chosen per goal
+        shown_example_idx = filter_harder_shorter_examples(example_data, goal=goal)
     else:
         raise ValueError(f"Unknown prompt style: {prompt_style}")
 
@@ -174,7 +182,7 @@ CONCLUSION: {conclusion}
 VALIDITY:"""
 
     # Harder, shorter, separate examples
-    elif prompt_style == 5:
+    elif prompt_style in [5, 6]:
         task_prompt['novelty'] = "NOVELTY:"
         task_prompt['validity'] = "VALIDITY:"
         prompt = f"""TOPIC: {topic}
@@ -189,7 +197,7 @@ CONCLUSION: {conclusion}
     if label is not None:
         if prompt_style in [0, 1]:
             label_str = 'no' if 'not' in label else 'yes'
-        elif prompt_style in [2, 4, 5]:
+        elif prompt_style in [2, 4, 5, 6]:
             label_str = label
         else:
             raise ValueError(f"Unknown prompt style: {prompt_style}")
@@ -199,7 +207,7 @@ CONCLUSION: {conclusion}
     return prompt
 
 
-def parse_response(api_response, label: str, prompt_style: int):
+def parse_response(api_response: dict, label: str, prompt_style: int):
     """
     Parse a response from OpenAI GPT for a particular task (defined by `label`) and `prompt_style`
     """
@@ -212,7 +220,7 @@ def parse_response(api_response, label: str, prompt_style: int):
             return f"not-{label}"
 
     # Expecting the label
-    elif prompt_style in [2, 3, 4, 5]:
+    elif prompt_style in [2, 3, 4, 5, 6]:
         if f"not-{label}" in api_response['text']:
             return f"not-{label}"
         else:
@@ -247,13 +255,13 @@ def main(args):
             x_nov = f"{example_prompt_nov}\n\n{x_nov}"
 
         # Pass through model
-        if args.prompt_style in [1, 2, 5]:
+        if args.prompt_style in [1, 2, 5, 6]:
             response = gpt3([x_val, x_nov])
             assert len(response) == 2
             response_val, response_nov = response
 
         elif args.prompt_style in [3, 4]:
-            response = gpt3([x_val]) # Do not use x_nov because it is wrong formatted
+            response = gpt3([x_val])  # Do not use x_nov because it is wrong formatted
             [response_val], [response_nov] = response, response
 
         else:
@@ -277,7 +285,7 @@ def main(args):
         })
 
         # Ugly hack to adhere to rate limit (1 / s)
-        if args.prompt_style in [2, 3, 4, 5]:
+        if args.prompt_style in [2, 3, 4, 5, 6]:
             time.sleep(1)
 
     # Write results to file as backup
@@ -290,14 +298,15 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prompt_style', default=0, type=int, choices=[0, 1, 2, 3, 4, 5],
+    parser.add_argument('--prompt_style', default=0, type=int, choices=[0, 1, 2, 3, 4, 5, 6],
                         help="Which prompt style to use: "
                              "0 baseline, separate prompts; "
                              "1 capitalized, separate prompts; "
                              "2 random dynamic examples, separate prompts; "
                              "3 static examples, merged prompts; "
                              "4 hard short examples, merged prompts; "
-                             "5 hard short examples, separate prompts")
+                             "5 hard short examples, separate prompts; "
+                             "6 hard short goal specific examples, separate prompts")
     parser.add_argument('--n_shot', default=0, type=int,
                         help="How many examples to give in the prompt")
     args = parser.parse_args()
