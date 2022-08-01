@@ -11,18 +11,26 @@ from trainers import MultitaskTrainer, NLPDataCollator
 
 
 class Tokenize:
-    def __init__(self, model_name, tensorflows):
+    def __init__(self, model_name, tensorflows, tokenizer_structure):
         self.model_name: str = model_name
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name,
                                                        from_tf=tensorflows)
+        self.structure = tokenizer_structure
 
     def _tokenize_fn(self, examples):
         batch_size = len(examples['Premise'])
-        batched_inputs = [
-            examples['topic'][i] + self.tokenizer.sep_token + \
-            examples['Premise'][i] + self.tokenizer.sep_token + \
-            examples['Conclusion'][i] for i in range(batch_size)
-        ]
+        if self.structure == 'concatenation':
+            batched_inputs = [
+                examples['topic'][i] + self.tokenizer.sep_token + \
+                examples['Premise'][i] + self.tokenizer.sep_token + \
+                examples['Conclusion'][i] for i in range(batch_size)
+            ]
+        elif self.structure == 'segment+concatenation':
+            batched_inputs = [
+                f"TOPIC: {examples['topic'][i]}" + self.tokenizer.sep_token + \
+                f"PREMISE: {examples['Premise'][i]}" + self.tokenizer.sep_token + \
+                f"CONCLUSION: {examples['Conclusion'][i]}" for i in range(batch_size)
+            ]
         return self.tokenizer(batched_inputs, truncation=True, padding=True)
 
     def tokenize_function_val(self, examples):
@@ -83,10 +91,11 @@ def main(
         tensorflows: bool = False,
         eval_only: bool = False,
         learning_rate: float = 5e-05,
-        epochs: int = 10
+        epochs: int = 10,
+        tokenizer_structure: str = 'concatenation'
     ):
     set_seed(seed)
-    tokenize = Tokenize(use_model, tensorflows)
+    tokenize = Tokenize(use_model, tensorflows, tokenizer_structure)
 
     # torch.backends.cudnn.benchmark = False
     # os.environ['PYTHONHASHSEED'] = str(config["pipeline"]["seed"])
@@ -183,6 +192,8 @@ if __name__ == "__main__":
     parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
     parser.add_argument('--epochs', default=10, type=int, help="Number of epochs to train for.")
     parser.add_argument('--learning_rate', '-l', default=5e-05, type=float, help="Learning rate hyperparameter.")
+    parser.add_argument('--tokenizer_structure', default='concatenation', type=str, choices=['concatenation', 'segment+concatenation'],
+                        help="Which input string structure to use in tokenization (mixes Topic/Premise/Conclusion segments)")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
@@ -195,5 +206,6 @@ if __name__ == "__main__":
         config["tensorflows"],
         config["eval_only"],
         config["learning_rate"],
-        config["epochs"]
+        config["epochs"],
+        config['tokenizer_structure']
     )
