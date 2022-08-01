@@ -1,0 +1,170 @@
+[
+  {
+    "y_nov": "not-novel",
+    "y_val": "not-valid",
+    "x_nov": "topic Torture\npremise No Western nation is performing torture on prisoners of war (POWs) from other sovereign states. If they are performing torture, it is on terrorists or \"enemy combatants\", which will not cause other states to react in any way regarding the treatment of POWs.\nconclusion Torture is not being applied to legitimate foreign troops, but terrorists:\nIs there a presence of novel premise-related content? \nno\ntopic US and NATO intervention in Libya\npremise A growing chorus of international voices has now called for Qadhafi\u2019s departure, including the G8, the Contact Group representing more than 20 countries, Russian President Medvedev, Turkish Prime Minister Erdogan, and several key African leaders such as the Presidents of Gabon, Mauritania, and Senegal. This growing consensus and Qadhafi\u2019s control of less and less of Libya indicate that his departure is only a matter of time.\nconclusion Many world leaders support the removal of Qadhafi\nIs there a presence of novel premise-related content? \nno\ntopic Twin Towers reconstruction\npremise The Towers looked like a giant number 11. Built in the end of sixties and beginning of seventies, with some finishing touches added shortly thereafter, they were not exactly new. They felt down because they could not withstand the heat of fire, which spread rather quickly inside them. They were attacked on the 11th of September. 2001.\nconclusion Old memories, old symbols. What's gone, is gone.\nIs there a presence of novel premise-related content? \nyes\ntopic Vegetarianism\npremise This is frequent argument of animal rights activists; that animals deserve rights because they have at least as much capacity to reason as do some retarded humans, who retain rights. The problem with this argument is that it fails to see rights as a thing that must be shared among a group of creatures, not something that is extended on an individual basis. Therefore, the question is not whether some humans are incapable of having rights, but rather whether human kind, as a species, is capable of having rights. They are. Non-human animals, conversely, as a class of organisms, are not capable of holding rights.\nconclusion Humans have rights because they can reason; animals do not deserve rights\nIs there a strict logical inference that links the premise to the conclusion? \n",
+    "x_val": "topic US offshore oil drilling\npremise While some contend that oil rigs are ugly to look at from the coast, this is not necessarily the case for everyone. Many like the imaginative stimulation it provides, as it forces one to contemplate a rig drilling thousands of feet to a reservoir below and to contemplate the energy demands of modern society. This need not be a painful \"eye-sore\", and can often be quite pleasant.\nconclusion Offshore oil drilling can be a pleasant distraction\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic Torture\npremise The Geneva Convention applies only to Prisoners of War whom are troops of nations that have both signed and abide by the Geneva convention. This does not apply to terrorists who have not state affiliation, have no signatory connection to the Geneva Convention, and who willingly violate the rules of war on the Geneva Convention.\nconclusion Terrorists have no Geneva rights\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Using sanctions to end child labor\npremise According to the U.S. Department of Labor;only 5 percent are actually involved in activities that have some connection with the global economy. Working conditions for children in many non-export sectors are far worse, but sanctions are not designed to target them. To the contrary, sanctions can force children into these sectors. This is clearly not a progress toward liberalization of labor system.\nconclusion Sanctions only target the export-oriented industries.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Vegetarianism\npremise This is frequent argument of animal rights activists; that animals deserve rights because they have at least as much capacity to reason as do some retarded humans, who retain rights. The problem with this argument is that it fails to see rights as a thing that must be shared among a group of creatures, not something that is extended on an individual basis. Therefore, the question is not whether some humans are incapable of having rights, but rather whether human kind, as a species, is capable of having rights. They are. Non-human animals, conversely, as a class of organisms, are not capable of holding rights.\nconclusion Humans have rights because they can reason; animals do not deserve rights\nIs there a presence of novel premise-related content? \n",
+    "response_nov": {
+      "prompt": "topic Torture\npremise No Western nation is performing torture on prisoners of war (POWs) from other sovereign states. If they are performing torture, it is on terrorists or \"enemy combatants\", which will not cause other states to react in any way regarding the treatment of POWs.\nconclusion Torture is not being applied to legitimate foreign troops, but terrorists:\nIs there a presence of novel premise-related content? \nno\ntopic US and NATO intervention in Libya\npremise A growing chorus of international voices has now called for Qadhafi\u2019s departure, including the G8, the Contact Group representing more than 20 countries, Russian President Medvedev, Turkish Prime Minister Erdogan, and several key African leaders such as the Presidents of Gabon, Mauritania, and Senegal. This growing consensus and Qadhafi\u2019s control of less and less of Libya indicate that his departure is only a matter of time.\nconclusion Many world leaders support the removal of Qadhafi\nIs there a presence of novel premise-related content? \nno\ntopic Twin Towers reconstruction\npremise The Towers looked like a giant number 11. Built in the end of sixties and beginning of seventies, with some finishing touches added shortly thereafter, they were not exactly new. They felt down because they could not withstand the heat of fire, which spread rather quickly inside them. They were attacked on the 11th of September. 2001.\nconclusion Old memories, old symbols. What's gone, is gone.\nIs there a presence of novel premise-related content? \nyes\ntopic Vegetarianism\npremise This is frequent argument of animal rights activists; that animals deserve rights because they have at least as much capacity to reason as do some retarded humans, who retain rights. The problem with this argument is that it fails to see rights as a thing that must be shared among a group of creatures, not something that is extended on an individual basis. Therefore, the question is not whether some humans are incapable of having rights, but rather whether human kind, as a species, is capable of having rights. They are. Non-human animals, conversely, as a class of organisms, are not capable of holding rights.\nconclusion Humans have rights because they can reason; animals do not deserve rights\nIs there a strict logical inference that links the premise to the conclusion? \n",
+      "text": "yes",
+      "tokens": [
+        "yes",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.40626734,
+        -0.003215854,
+        -0.24539815,
+        -6.3900848e-06,
+        -1.610609,
+        -0.4809082,
+        -2.7105606,
+        -1.4818702
+      ]
+    },
+    "response_val": {
+      "prompt": "topic US offshore oil drilling\npremise While some contend that oil rigs are ugly to look at from the coast, this is not necessarily the case for everyone. Many like the imaginative stimulation it provides, as it forces one to contemplate a rig drilling thousands of feet to a reservoir below and to contemplate the energy demands of modern society. This need not be a painful \"eye-sore\", and can often be quite pleasant.\nconclusion Offshore oil drilling can be a pleasant distraction\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic Torture\npremise The Geneva Convention applies only to Prisoners of War whom are troops of nations that have both signed and abide by the Geneva convention. This does not apply to terrorists who have not state affiliation, have no signatory connection to the Geneva Convention, and who willingly violate the rules of war on the Geneva Convention.\nconclusion Terrorists have no Geneva rights\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Using sanctions to end child labor\npremise According to the U.S. Department of Labor;only 5 percent are actually involved in activities that have some connection with the global economy. Working conditions for children in many non-export sectors are far worse, but sanctions are not designed to target them. To the contrary, sanctions can force children into these sectors. This is clearly not a progress toward liberalization of labor system.\nconclusion Sanctions only target the export-oriented industries.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Vegetarianism\npremise This is frequent argument of animal rights activists; that animals deserve rights because they have at least as much capacity to reason as do some retarded humans, who retain rights. The problem with this argument is that it fails to see rights as a thing that must be shared among a group of creatures, not something that is extended on an individual basis. Therefore, the question is not whether some humans are incapable of having rights, but rather whether human kind, as a species, is capable of having rights. They are. Non-human animals, conversely, as a class of organisms, are not capable of holding rights.\nconclusion Humans have rights because they can reason; animals do not deserve rights\nIs there a presence of novel premise-related content? \n",
+      "text": "no",
+      "tokens": [
+        "no",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.5807054,
+        -0.018078484,
+        -0.18704142,
+        -5.460492e-07,
+        -1.602967,
+        -0.49139118,
+        -2.705594,
+        -1.4798168
+      ]
+    },
+    "pred_nov": "novel",
+    "pred_val": "not-valid"
+  },
+  {
+    "y_nov": "novel",
+    "y_val": "not-valid",
+    "x_nov": "topic US health care reform\npremise [The bill] Forces you to pay up to 8% of your income to private insurance corporations \u2014 whether you want to or not. [...] If you refuse to buy the insurance, you\u2019ll have to pay penalties of up to 2% of your annual income to the IRS.\nconclusion Health insurance mandates are unenforceable\nIs there a presence of novel premise-related content? \nno\ntopic US health care reform\npremise There is a lot to like in the bill. The Congressional Budget Office estimates that it would cover more than 30 million of the uninsured and would, by 2019, result in 94 percent of all citizens and legal residents below Medicare age having health insurance. That is a big improvement from the current 83 percent.\nconclusion Health insurance mandates are a welcome boost\nIs there a presence of novel premise-related content? \nyes\ntopic US health care reform\npremise The point isn't that this one piece of legislation, on its own, will impose a Canadian-style, government-run health care system on the United States immediately. The point is that Democrats are putting infrastructure in place that will allow them to implement a government-run system over time.\nconclusion Progressive tax legislation builds on existing infrastructure\nIs there a presence of novel premise-related content? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarians often pass diseases through animals\nIs there a strict logical inference that links the premise to the conclusion? \n",
+    "x_val": "topic Trying terrorist suspects in civilian courts\npremise Sen. John McCain, R-Ariz., compared the decision to try accused 9/11 mastermind Khalid Sheikh Mohammed and other terrorists in New York City to trying Nazi war criminal Hermann Goering in San Francisco. \"It's ridiculous. These are war criminals and terrorists and they should not be privy to regular courtroom procedures.\nconclusion Terrorist suspects should not be tried in civilian courts\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Trying 9/11 terror suspects in NYC courts\npremise everyone knows that whatever the outcome of the trial, KSM will never walk free. He will spend the rest of his natural life in U.S. custody. Which makes the proceedings a farcical show trial from the very beginning.\nconclusion 9/11 suspect KSM would never walk free.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Trying terrorist suspects in civilian courts\npremise The detainees, as they have shown in the past, are especially dangerous to guards, a problem that's more acute when in transit or in civilian prisons than in a facility like Guantanamo that's designed to house them.\nconclusion Terrorist suspects are particularly dangerous to guards\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarians often pass diseases through animals\nIs there a presence of novel premise-related content? \n",
+    "response_nov": {
+      "prompt": "topic US health care reform\npremise [The bill] Forces you to pay up to 8% of your income to private insurance corporations \u2014 whether you want to or not. [...] If you refuse to buy the insurance, you\u2019ll have to pay penalties of up to 2% of your annual income to the IRS.\nconclusion Health insurance mandates are unenforceable\nIs there a presence of novel premise-related content? \nno\ntopic US health care reform\npremise There is a lot to like in the bill. The Congressional Budget Office estimates that it would cover more than 30 million of the uninsured and would, by 2019, result in 94 percent of all citizens and legal residents below Medicare age having health insurance. That is a big improvement from the current 83 percent.\nconclusion Health insurance mandates are a welcome boost\nIs there a presence of novel premise-related content? \nyes\ntopic US health care reform\npremise The point isn't that this one piece of legislation, on its own, will impose a Canadian-style, government-run health care system on the United States immediately. The point is that Democrats are putting infrastructure in place that will allow them to implement a government-run system over time.\nconclusion Progressive tax legislation builds on existing infrastructure\nIs there a presence of novel premise-related content? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarians often pass diseases through animals\nIs there a strict logical inference that links the premise to the conclusion? \n",
+      "text": "No",
+      "tokens": [
+        "No",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.5691045,
+        -0.2536681,
+        -0.8228196,
+        -8.653179e-06,
+        -1.599943,
+        -0.4842326,
+        -2.7209291,
+        -1.4959737
+      ]
+    },
+    "response_val": {
+      "prompt": "topic Trying terrorist suspects in civilian courts\npremise Sen. John McCain, R-Ariz., compared the decision to try accused 9/11 mastermind Khalid Sheikh Mohammed and other terrorists in New York City to trying Nazi war criminal Hermann Goering in San Francisco. \"It's ridiculous. These are war criminals and terrorists and they should not be privy to regular courtroom procedures.\nconclusion Terrorist suspects should not be tried in civilian courts\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Trying 9/11 terror suspects in NYC courts\npremise everyone knows that whatever the outcome of the trial, KSM will never walk free. He will spend the rest of his natural life in U.S. custody. Which makes the proceedings a farcical show trial from the very beginning.\nconclusion 9/11 suspect KSM would never walk free.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Trying terrorist suspects in civilian courts\npremise The detainees, as they have shown in the past, are especially dangerous to guards, a problem that's more acute when in transit or in civilian prisons than in a facility like Guantanamo that's designed to house them.\nconclusion Terrorist suspects are particularly dangerous to guards\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarians often pass diseases through animals\nIs there a presence of novel premise-related content? \n",
+      "text": "no",
+      "tokens": [
+        "no",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.99086124,
+        -0.029878682,
+        -0.65115047,
+        -6.6619094e-07,
+        -1.6183035,
+        -0.4862817,
+        -2.7217376,
+        -1.4894377
+      ]
+    },
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
+  },
+  {
+    "y_nov": "novel",
+    "y_val": "not-valid",
+    "x_nov": "topic US health care reform\npremise The first reason to oppose this bill is that it does not fundamentally reform health care. The current system is rotten to the bone with opaque pricing and insane incentives. Consumers are insulated from the costs of their decisions and providers are punished for efficiency. Burkean gradualism is fine if you\u2019ve got a cold. But if you\u2019ve got cancer, you want surgery, not nasal spray.\nconclusion US health care reform is not fundamental to democracy\nIs there a presence of novel premise-related content? \nno\ntopic US offshore oil drilling\npremise Offshore oil rigs in the western Gulf of Mexico, one of the exceptions to the ban imposed by Congress, endured Hurricane Katrina without spills.\nconclusion KSM will almost certainly be convicted in NY civilian courts\nIs there a presence of novel premise-related content? \nno\ntopic Trying terrorist suspects in civilian courts\npremise New York Mayor Rudy Giuliani praised the trial of the 1993 bombing of the World Trade Center, saying, \"New Yorkers won\u2019t meet violence with violence, but with a far greater weapon -- the law.\nconclusion The law is a far better weapon than violence\nIs there a presence of novel premise-related content? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarianism is a risk to human health\nIs there a strict logical inference that links the premise to the conclusion? \n",
+    "x_val": "topic UN Security Council veto\npremise Country admission into the UN and into the Security Council is a sensitive topic for some countries, and can often involve deeply rooted prejudices. But, admission should not be held ransom to these prejudices in the form of the vetoe.\nconclusion Admission into the UN is a sensitive topic.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic US offshore oil drilling\npremise Offshore oil rigs in the western Gulf of Mexico, one of the exceptions to the ban imposed by Congress, endured Hurricane Katrina without spills.\nconclusion KSM will almost certainly be convicted in NY civilian courts\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic US-Indian nuclear deal\npremise We all know that friendly states can also be problem states, as is evident in Pakistan. Yesterday\u2019s friend can become tomorrow\u2019s adversary, and vice versa. Teheran\u2019s nuclear program, for example, dates back to our late friend, the Shah of Iran.\nconclusion Offshore oil helps mitigate spikes in oil prices\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarianism is a risk to human health\nIs there a presence of novel premise-related content? \n",
+    "response_nov": {
+      "prompt": "topic US health care reform\npremise The first reason to oppose this bill is that it does not fundamentally reform health care. The current system is rotten to the bone with opaque pricing and insane incentives. Consumers are insulated from the costs of their decisions and providers are punished for efficiency. Burkean gradualism is fine if you\u2019ve got a cold. But if you\u2019ve got cancer, you want surgery, not nasal spray.\nconclusion US health care reform is not fundamental to democracy\nIs there a presence of novel premise-related content? \nno\ntopic US offshore oil drilling\npremise Offshore oil rigs in the western Gulf of Mexico, one of the exceptions to the ban imposed by Congress, endured Hurricane Katrina without spills.\nconclusion KSM will almost certainly be convicted in NY civilian courts\nIs there a presence of novel premise-related content? \nno\ntopic Trying terrorist suspects in civilian courts\npremise New York Mayor Rudy Giuliani praised the trial of the 1993 bombing of the World Trade Center, saying, \"New Yorkers won\u2019t meet violence with violence, but with a far greater weapon -- the law.\nconclusion The law is a far better weapon than violence\nIs there a presence of novel premise-related content? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarianism is a risk to human health\nIs there a strict logical inference that links the premise to the conclusion? \n",
+      "text": "no",
+      "tokens": [
+        "no",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.67712206,
+        -0.0039057338,
+        -0.769545,
+        -1.5448071e-05,
+        -1.611988,
+        -0.48909214,
+        -2.7263196,
+        -1.5063407
+      ]
+    },
+    "response_val": {
+      "prompt": "topic UN Security Council veto\npremise Country admission into the UN and into the Security Council is a sensitive topic for some countries, and can often involve deeply rooted prejudices. But, admission should not be held ransom to these prejudices in the form of the vetoe.\nconclusion Admission into the UN is a sensitive topic.\nIs there a strict logical inference that links the premise to the conclusion? \nyes\ntopic US offshore oil drilling\npremise Offshore oil rigs in the western Gulf of Mexico, one of the exceptions to the ban imposed by Congress, endured Hurricane Katrina without spills.\nconclusion KSM will almost certainly be convicted in NY civilian courts\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic US-Indian nuclear deal\npremise We all know that friendly states can also be problem states, as is evident in Pakistan. Yesterday\u2019s friend can become tomorrow\u2019s adversary, and vice versa. Teheran\u2019s nuclear program, for example, dates back to our late friend, the Shah of Iran.\nconclusion Offshore oil helps mitigate spikes in oil prices\nIs there a strict logical inference that links the premise to the conclusion? \nno\ntopic Vegetarianism\npremise Almost all dangerous types of food-poisoning (e.g. E-coli, salmonella) are passed on through meat or eggs. Close contact between humans and animals also leads to zoonosis \u2013 diseases such as bird \u2018flu which can be passed on from animals to humans. Hunters eating apes and monkeys is thought to have brought HIV/AIDS to humans. And using animal brains in the processed feed for livestock led to BSE in cattle and to CJD in humans who ate beef from infected cows.\nconclusion Vegetarianism is a risk to human health\nIs there a presence of novel premise-related content? \n",
+      "text": "no",
+      "tokens": [
+        "no",
+        "<|endoftext|>",
+        "Q",
+        ":",
+        " How",
+        " to",
+        " get",
+        " the"
+      ],
+      "logprob": [
+        -0.7042642,
+        -0.035800792,
+        -0.62869716,
+        -4.277735e-07,
+        -1.6101607,
+        -0.4901327,
+        -2.7271192,
+        -1.5010415
+      ]
+    },
+    "pred_nov": "not-novel",
+    "pred_val": "not-valid"
+  }
+]
