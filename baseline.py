@@ -8,7 +8,7 @@ from tqdm import tqdm
 from data import SharedTaskData, SharedTaskConstants
 
 
-def evaluate_from_file(file_path:str):
+def evaluate_from_file(file_path: str):
     # Prepare storage of labels and dumpables
     y_true = {'novelty': [], 'validity': []}
     y_pred = {'novelty': [], 'validity': []}
