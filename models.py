@@ -1,5 +1,7 @@
 import transformers
 import torch.nn as nn
+import torch
+from pathlib import Path
 
 
 class MultitaskModel(transformers.PreTrainedModel):
@@ -36,7 +38,18 @@ class MultitaskModel(transformers.PreTrainedModel):
             else:
                 setattr(model, cls.get_encoder_attr_name(model), shared_encoder)
             taskmodels_dict[task_name] = model
+
         return cls(encoder=shared_encoder, taskmodels_dict=taskmodels_dict)
+
+    def load_trainer_checkpoint(self, checkpoint):
+        checkpoint_path = Path(checkpoint)
+        if not checkpoint_path.is_dir():
+            raise ValueError("{checkpoint_path} is not a valid directory")
+        pytorch_file = checkpoint_path / "pytorch_model.bin"
+        if not pytorch_file.is_file():
+            raise ValueError(f"Couldn't find PyTorch file at {pytorch_file}")
+        loaded_state_dict = torch.load(pytorch_file)
+        self.load_state_dict(loaded_state_dict)
 
     @classmethod
     def get_encoder_attr_name(cls, model):
