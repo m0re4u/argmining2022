@@ -92,7 +92,8 @@ def main(
         eval_only: bool = False,
         learning_rate: float = 5e-05,
         epochs: int = 10,
-        tokenizer_structure: str = 'concatenation'
+        tokenizer_structure: str = 'concatenation',
+        checkpoint: str = None
     ):
     set_seed(seed)
     tokenize = Tokenize(use_model, tensorflows, tokenizer_structure)
@@ -138,6 +139,9 @@ def main(
         tensorflows=tensorflows
     )
 
+    if checkpoint is not None:
+        multitask_model.load_trainer_checkpoint(checkpoint)
+
     # Combine datasets
     train_dataset = {
         "novelty": tokenized_train_dataset_novelty,
@@ -154,7 +158,7 @@ def main(
         f"hftrainer_am_mtl_{use_model}_{epochs}_{learning_rate}_{seed}",
         num_train_epochs=epochs,
         learning_rate=learning_rate,
-        report_to="wandb",
+        report_to="none" if eval_only else "wandb",
         logging_strategy="epoch",
         metric_for_best_model="eval_org_f1_macro",
         greater_is_better=True,
@@ -171,11 +175,14 @@ def main(
         data_collator=NLPDataCollator(tokenizer=tokenize.tokenizer),
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
+        tokenizer=tokenize.tokenizer,
         compute_metrics=compute_metrics
     )
 
     if eval_only:
-        trainer.evaluate()
+        results = trainer.evaluate()
+        for result_key, result in results.items():
+            print(f"  {result_key:>52} : {result:2.4f}")
     else:
         trainer.train()
         trainer.evaluate()
@@ -184,7 +191,7 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_model', default=None, type=str,
-                        help="Which model to load")
+                        help="Which model to load as model definition")
     parser.add_argument('--tensorflows', default=False, type=bool,
                         help="enable loading from Tensorflow models")
     parser.add_argument('--eval_only', default=False, action='store_true',
@@ -194,18 +201,12 @@ if __name__ == "__main__":
     parser.add_argument('--learning_rate', '-l', default=5e-05, type=float, help="Learning rate hyperparameter.")
     parser.add_argument('--tokenizer_structure', default='concatenation', type=str, choices=['concatenation', 'segment+concatenation'],
                         help="Which input string structure to use in tokenization (mixes Topic/Premise/Conclusion segments)")
+    parser.add_argument('--checkpoint', default=None, type=str,
+                        help="Which trained checkpoint to load (weights only)")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
     for k, v in config.items():
         print(f"  {k:>21} : {v}")
 
-    main(
-        config["use_model"],
-        config["seed"],
-        config["tensorflows"],
-        config["eval_only"],
-        config["learning_rate"],
-        config["epochs"],
-        config['tokenizer_structure']
-    )
+    main(**config)
