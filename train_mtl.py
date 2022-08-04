@@ -11,11 +11,12 @@ from trainers import MultitaskTrainer, NLPDataCollator
 
 
 class Tokenize:
-    def __init__(self, model_name, tensorflows, tokenizer_structure):
+    def __init__(self, model_name, tensorflows, tokenizer_structure, predict_only):
         self.model_name: str = model_name
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name,
                                                        from_tf=tensorflows)
         self.structure = tokenizer_structure
+        self.predict_only = predict_only
 
     def _tokenize_fn(self, examples):
         batch_size = len(examples['Premise'])
@@ -35,12 +36,14 @@ class Tokenize:
 
     def tokenize_function_val(self, examples):
         samples = self._tokenize_fn(examples)
-        samples['labels'] = examples['validity_str']
+        if not self.predict_only:
+            samples['labels'] = examples['validity_str']
         return samples
 
     def tokenize_function_nov(self, examples):
         samples = self._tokenize_fn(examples)
-        samples['labels'] = examples['novelty_str']
+        if not self.predict_only:
+            samples['labels'] = examples['novelty_str']
         return samples
 
 
@@ -67,19 +70,24 @@ def compute_metrics(p):
     )
 
 
-def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_fn):
+def prepare_data(model_name, train_dataset, dev_dataset, target_task, tokenizer_fn, predict_only=False):
     """
-    Prepare a training and development dataset for HF training. Includes tokenizations and casting to torch tensors.
+    Prepare a training and development dataset for HF training. Includes tokenizations and casting
+    to torch tensors. In case `predict_only` is set, ignore all labels in the dev set (will be used
+    as the test set).
     """
     train_dataset = train_dataset.convert_to_hf_dataset(target_task)
     dev_dataset = dev_dataset.convert_to_hf_dataset(target_task, features=train_dataset.features)
-    assert train_dataset.features[f'{target_task}_str']._str2int == dev_dataset.features[f'{target_task}_str']._str2int
+
     tokenized_train_dataset = train_dataset.map(tokenizer_fn, batched=True)
     tokenized_dev_dataset = dev_dataset.map(tokenizer_fn, batched=True)
     if 'roberta' in model_name or 'ArgumentRelation' in model_name:
-        column_names = ['input_ids', 'attention_mask', 'labels']
+        column_names = ['input_ids', 'attention_mask']
     else:
-        column_names = ['input_ids', 'token_type_ids', 'attention_mask', 'labels']
+        column_names = ['input_ids', 'token_type_ids', 'attention_mask']
+
+    if not predict_only:
+        column_names += ['labels']
     tokenized_train_dataset.set_format(type='torch', columns=column_names)
     tokenized_dev_dataset.set_format(type='torch', columns=column_names)
     return tokenized_train_dataset, tokenized_dev_dataset
@@ -90,13 +98,14 @@ def main(
         seed: int = 0,
         tensorflows: bool = False,
         eval_only: bool = False,
+        predict_only: bool = False,
         learning_rate: float = 5e-05,
         epochs: int = 10,
         tokenizer_structure: str = 'concatenation',
         checkpoint: str = None
     ):
     set_seed(seed)
-    tokenize = Tokenize(use_model, tensorflows, tokenizer_structure)
+    tokenize = Tokenize(use_model, tensorflows, tokenizer_structure, predict_only)
 
     # torch.backends.cudnn.benchmark = False
     # os.environ['PYTHONHASHSEED'] = str(config["pipeline"]["seed"])
@@ -104,26 +113,35 @@ def main(
 
     train_data = SharedTaskData("TaskA_train.csv")
     dev_data = SharedTaskData("TaskA_dev.csv")
+    if predict_only:
+        dev_data = SharedTaskData("TaskA_test-without-labels.csv", test_set=True)
 
     tokenized_train_dataset_novelty, tokenized_dev_dataset_novelty = prepare_data(
         use_model,
         train_data,
         dev_data,
         "novelty",
-        tokenize.tokenize_function_nov
+        tokenize.tokenize_function_nov,
+        predict_only=predict_only
     )
     tokenized_train_dataset_validity, tokenized_dev_dataset_validity = prepare_data(
         use_model,
         train_data,
         dev_data,
         "validity",
-        tokenize.tokenize_function_val
+        tokenize.tokenize_function_val,
+        predict_only=predict_only
     )
 
     if "ArgumentRelation" in use_model:
         kwargs = {'pad_token_id': 1}
     else:
         kwargs = {}
+
+    print(tokenized_dev_dataset_validity)
+    print(tokenized_dev_dataset_novelty)
+    print(tokenized_dev_dataset_validity[0])
+    print(tokenized_dev_dataset_novelty[0])
 
     # Create model
     multitask_model = MultitaskModel.create(
@@ -179,6 +197,11 @@ def main(
         compute_metrics=compute_metrics
     )
 
+    if predict_only:
+        print("results novelty")
+        results = trainer.predict(val_dataset)
+        for result_key, result in results.items():
+            print(f"  {result_key:>52} : {result:2.4f}")
     if eval_only:
         results = trainer.evaluate()
         for result_key, result in results.items():
@@ -196,6 +219,8 @@ if __name__ == "__main__":
                         help="enable loading from Tensorflow models")
     parser.add_argument('--eval_only', default=False, action='store_true',
                         help="Whether to do training or evaluation only")
+    parser.add_argument('--predict_only', default=False, action='store_true',
+                        help="Whether to do predict on test set. Takes prevalence over eval_only")
     parser.add_argument('--seed', '-s', default=0, type=int, help="Set seed for reproducibility.")
     parser.add_argument('--epochs', default=10, type=int, help="Number of epochs to train for.")
     parser.add_argument('--learning_rate', '-l', default=5e-05, type=float, help="Learning rate hyperparameter.")

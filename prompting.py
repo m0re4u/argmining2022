@@ -232,16 +232,26 @@ def parse_response(api_response: dict, label: str, prompt_style: int):
 
 def main(args):
     train_data = SharedTaskData("TaskA_train.csv")
-    dev_data = SharedTaskData("TaskA_dev.csv")
+
+    if args.test_set_predictions:
+        dev_data = SharedTaskData("TaskA_test-without-labels.csv", test_set=True)
+    else:
+        dev_data = SharedTaskData("TaskA_dev.csv")
 
     # Prepare storage of labels and dumpables
     y_true = {'novelty': [], 'validity': []}
     y_pred = {'novelty': [], 'validity': []}
     dump_data = []
-    for sample, y_val, y_nov in tqdm(dev_data):
-        # Get true labels
-        y_true['validity'].append(SharedTaskConstants.local_str_mapping[y_val])
-        y_true['novelty'].append(SharedTaskConstants.local_str_mapping[y_nov])
+    for data_point in tqdm(dev_data):
+        if args.test_set_predictions:
+            sample = data_point
+            y_val = None
+            y_nov = None
+        else:
+            sample, y_val, y_nov = data_point
+            # Get true labels
+            y_true['validity'].append(SharedTaskConstants.local_str_mapping[y_val])
+            y_true['novelty'].append(SharedTaskConstants.local_str_mapping[y_nov])
 
         # Get the prompt for asking about the sample
         x_val = get_prompt(sample, prompt_style=args.prompt_style, goal='validity')
@@ -286,14 +296,16 @@ def main(args):
 
         # Ugly hack to adhere to rate limit (1 / s)
         if args.prompt_style in [2, 3, 4, 5, 6]:
-            time.sleep(1)
+            time.sleep(2)
 
     # Write results to file as backup
-    with open(f'predictions/dump_prompt_{args.prompt_style}_results.json', 'w') as f:
+    with open(f'predictions/dump_prompt_{args.prompt_style}_eval={args.test_set_predictions}_results.json', 'w') as f:
         json.dump(dump_data, f)
 
-    # Evaluate
-    print_results(f"Prompting (style {args.prompt_style})", y_true, y_pred)
+
+    # Evaluate only on development set (if we have labels)
+    if not args.test_set_predictions:
+        print_results(f"Prompting (style {args.prompt_style})", y_true, y_pred)
 
 
 if __name__ == "__main__":
@@ -309,6 +321,8 @@ if __name__ == "__main__":
                              "6 hard short goal specific examples, separate prompts")
     parser.add_argument('--n_shot', default=0, type=int,
                         help="How many examples to give in the prompt")
+    parser.add_argument('--test_set_predictions', default=False, action='store_true',
+                        help="Run on the test set instead of the validation set")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")

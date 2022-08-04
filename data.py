@@ -2,7 +2,7 @@ from typing import Dict
 
 import numpy as np
 import pandas as pd
-from datasets import Dataset
+from datasets import Dataset, Features
 
 
 def map_label(example):
@@ -17,15 +17,26 @@ def map_label(example):
 
 
 class SharedTaskData:
-    def __init__(self, filename):
+    def __init__(self, filename, test_set=False):
         self.df = pd.read_csv(filename)
+        self.test_set = test_set
 
-    def convert_to_hf_dataset(self, label_target, features=None):
+    def convert_to_hf_dataset(self, label_target=None, features=None):
         """
         Convert the dataset to Huggingface Dataset with the `label_target` column as target labels.
 
         If `features` is set, override the label by copying features from existing dataset.
         """
+        if self.test_set:
+            ds = Dataset.from_pandas(self.df, split='test')
+            new_features = Features({
+                'topic': features['topic'],
+                'Premise':features['Premise'],
+                'Conclusion': features['Conclusion']
+            })
+            ds = ds.cast(new_features)
+            return ds
+
         if label_target not in SharedTaskConstants.targets:
             raise ValueError("Not a valid target label")
         self.target = label_target
@@ -51,6 +62,8 @@ class SharedTaskData:
         """
         Print how many samples there are in the dataset according to label combination
         """
+        if self.test_set:
+            raise NotImplementedError("Cannot count statistics for test set")
         dataset = self.df
         dataset['Validity'] = dataset['Validity'].apply(lambda x: -1 if x == 0 else x)
         dataset['Novelty'] = dataset['Novelty'].apply(lambda x: -1 if x == 0 else x)
@@ -62,15 +75,22 @@ class SharedTaskData:
 
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
-        return (
-            {
+        if self.test_set:
+            return {
                 'premise': row['Premise'],
                 'topic': row['topic'],
                 'conclusion': row['Conclusion'],
-            },
-            SharedTaskConstants.validity_label_mapping[row['Validity']],
-            SharedTaskConstants.novelty_label_mapping[row['Novelty']]
-        )
+            }
+        else:
+            return (
+                {
+                    'premise': row['Premise'],
+                    'topic': row['topic'],
+                    'conclusion': row['Conclusion'],
+                },
+                SharedTaskConstants.validity_label_mapping[row['Validity']],
+                SharedTaskConstants.novelty_label_mapping[row['Novelty']]
+            )
 
     def __len__(self):
         return len(self.df)

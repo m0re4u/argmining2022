@@ -1,0 +1,39 @@
+
+SUBJECT: "[ArgMining22-SharedTask-SubtaskA] CLTeamL (1)"
+
+
+Team name: CLTeamL
+Team members:
+    - Name: Michiel van der Meer (Main contact)
+        Email: m.t.van.der.meer@liacs.leidenuniv.nl
+        Affiliation: Leiden Institute of Advanced Computer Science, Hybrid Intelligence Consortium
+        Webpage: https://liacs.leidenuniv.nl/~meermtvander/
+    - Name: Myrthe Reuver
+        Email: myrthe.reuver@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam
+        Webpage: https://myrthereuver.github.io/
+    - Name: Urja Khurana
+        Email: u.khurana@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://urjakh.github.io/
+    - Name: Lea Krause
+        Email: l.krause@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://lkra.github.io/
+    - Name: Selene Báez Santamaría
+        Email: s.baezsantamaria@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://selbaez.github.io/
+Approach title: GPT-3 few-shot prompt engineering
+Abstract: "
+In our prompt-engineering approach, we used OpenAI's GPT-3 (https://beta.openai.com/playground) for few-shot classification of novelty and validity labels. We construct a prompt by concatenating topic, premise and conclusions in a structured format, and request either a novelty or validity label at the time in separate prompts. In addition, we show four static examples before asking a label from the model, selected from short, hard examples (=have only majority annotation agreement) in the training dataset.
+        
+Extra training data: No extra data was used
+
+
+predictions are attached.
+
+Kind regards,
+
+Michiel van der Meer
+    
