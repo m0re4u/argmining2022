@@ -52,11 +52,21 @@ def load_mtl_preds(test_data, predictions_filename):
     return df
 
 
+def load_mixed_preds(test_data, prediction_source, predictions_filename1, predictions_filename2):
+    if prediction_source == 'supervised-mtl-novelty-prompt-validity':
+        preds_mtl = load_mtl_preds(test_data, predictions_filename1)
+        preds_prompting = load_prompt_preds(test_data, predictions_filename2)
+        # Keep predicted novelty from preds_mtl and predicted validity from preds_prompting
+        preds_mtl['predicted validity'] = preds_prompting['predicted validity']
+
+    return preds_mtl
+
+
 def get_approach_title(prediction_source):
     if prediction_source == "prompt-only":
         return "GPT-3 few-shot prompt engineering"
     elif prediction_source == "supervised-mtl-only":
-        return "Supervised Multi-Task Learning using pretrained Transformers"
+        return "Supervised Multi-Task Learning using pretrained Transformers and contrastive learning"
     elif prediction_source == "supervised-mtl-novelty-prompt-validity":
         return "Mixed GPT-3 and Multi-Task Learning"
 
@@ -67,11 +77,12 @@ In our prompt-engineering approach, we used OpenAI's GPT-3 (https://beta.openai.
         """
     elif prediction_source == "supervised-mtl-only":
         return """
-Our supervised approach uses Multi-Task Learning (MTL) for predicting novelty and validity labels. The model consists of a shared encoder with task-specific classification heads (single layer). As input, we feed topic, premise and conclusion, and switch uniformly at random during training between the novelty and validity task. In this particular version, we use a pretrained RoBERTa on NLI datasets as starting point, then finetune using MTL on the training data.
+Our supervised approach uses Multi-Task Learning (MTL) for predicting novelty and validity labels. The model consists of a shared encoder with task-specific classification heads (single layer). As input, we feed topic, premise and conclusion, and switch uniformly at random during training between the novelty and validity task. In this particular version, we use a pretrained RoBERTa on NLI datasets as starting point, run an intermediate training procedure, followed by finetuning using MTL on the training data. As an intermediate step we implemented contrastive learning. Our model, roberta-large-mnli (RoBERTa large fine-tuned on the Multi-Genre Natural Language Inference (MNLI) corpus), is optimized with triplet loss according to the contrastive learning framework from [SimCSE](https://github.com/princeton-nlp/SimCSE). As data, we grouped the training data by premise and novelty, and created premise, positive-novelty-conclusion and negative-novelty-conclusion triples.
+
         """
     elif prediction_source == "supervised-mtl-novelty-prompt-validity":
         return """
-Mixed
+For our mixed approach, we combine two models for predictions of the tasks separately: we use OpenAI's GPT-3 for the classification of validity labels, which is trained in the same way as the model in our GPT-3 few-shot prompt engineering approach, and roberta-large-mnli in a contrastive setting for the classification of the novelty labels. We choose these two methods as we observed them to achieve high results on their respective task.
         """
 
 def get_extra_data_description(prediction_source):
@@ -143,6 +154,8 @@ def main(args):
         preds = load_prompt_preds(test_data, args.prediction_file)
     elif args.prediction_source == 'supervised-mtl-only':
         preds = load_mtl_preds(test_data, args.prediction_file)
+    elif args.prediction_source == 'supervised-mtl-novelty-prompt-validity':
+        preds = load_mixed_preds(test_data, args.prediction_source, args.prediction_file, args.second_prediction_file)
 
     write_submission_files(preds, email, args.prediction_source)
 
@@ -153,7 +166,8 @@ if __name__ == "__main__":
                         help="Which method was used for creating the predictions")
     parser.add_argument('prediction_file', default=None, type=str,
                         help="File to load predictions from")
-
+    parser.add_argument('--second_prediction_file', default=None, type=str,
+                        help="File to load second set of predictions from for MIXED models")
     args = parser.parse_args()
     config = vars(args)
     print("Parameters:")
