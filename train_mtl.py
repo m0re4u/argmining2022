@@ -1,5 +1,7 @@
 import argparse
+import json
 
+import numpy as np
 import torch
 import transformers
 from sklearn.metrics import classification_report
@@ -138,11 +140,6 @@ def main(
     else:
         kwargs = {}
 
-    print(tokenized_dev_dataset_validity)
-    print(tokenized_dev_dataset_novelty)
-    print(tokenized_dev_dataset_validity[0])
-    print(tokenized_dev_dataset_novelty[0])
-
     # Create model
     multitask_model = MultitaskModel.create(
         model_name=use_model,
@@ -198,11 +195,11 @@ def main(
     )
 
     if predict_only:
-        print("results novelty")
-        results = trainer.predict(val_dataset)
-        for result_key, result in results.items():
-            print(f"  {result_key:>52} : {result:2.4f}")
-    if eval_only:
+        results = trainer.predict(val_dataset, tok=tokenize.tokenizer)
+        with open('predictions/dump_supervised_mtl.json', 'w') as f:
+            result_dump = {k: np.argmax(v.predictions, axis=1).tolist() for k, v in results.items()}
+            json.dump(result_dump, f)
+    elif eval_only:
         results = trainer.evaluate()
         for result_key, result in results.items():
             print(f"  {result_key:>52} : {result:2.4f}")

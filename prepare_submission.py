@@ -35,7 +35,21 @@ def load_prompt_preds(test_data, predictions_filename):
     return df
 
 
-def load_mtl_preds(test_data, checkpoint):
+def load_mtl_preds(test_data, predictions_filename):
+    label_mapping = {0: -1, 1: 1}
+    with open(predictions_filename, 'r') as f:
+        pred_data = json.load(f)
+    records = []
+    for i, test_sample in enumerate(test_data):
+        records.append({
+            'topic': test_sample['topic'],
+            'Premise': test_sample['premise'],
+            'Conclusion': test_sample['conclusion'],
+            'predicted validity': label_mapping[pred_data['validity'][i]],
+            'predicted novelty': label_mapping[pred_data['novelty'][i]],
+        })
+    df = pd.DataFrame.from_records(records)
+    return df
 
 
 def get_approach_title(prediction_source):
