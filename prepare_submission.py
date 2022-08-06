@@ -8,7 +8,9 @@ from data import SharedTaskData
 PREDICTION_SOURCES = [
     "prompt-only",
     "supervised-mtl-only",
-    "supervised-mtl-novelty-prompt-validity"
+    "supervised-mtl-novelty-prompt-validity",
+    "supervised-mtl-argrel-only",
+    "supervised-mtl-argrel-novelty-prompt-validity"
 ]
 
 
@@ -53,12 +55,11 @@ def load_mtl_preds(test_data, predictions_filename):
 
 
 def load_mixed_preds(test_data, prediction_source, predictions_filename1, predictions_filename2):
-    if prediction_source == 'supervised-mtl-novelty-prompt-validity':
+    if prediction_source == 'supervised-mtl-novelty-prompt-validity' or prediction_source == "supervised-mtl-argrel-novelty-prompt-validity":
         preds_mtl = load_mtl_preds(test_data, predictions_filename1)
         preds_prompting = load_prompt_preds(test_data, predictions_filename2)
         # Keep predicted novelty from preds_mtl and predicted validity from preds_prompting
         preds_mtl['predicted validity'] = preds_prompting['predicted validity']
-
     return preds_mtl
 
 
@@ -68,6 +69,10 @@ def get_approach_title(prediction_source):
     elif prediction_source == "supervised-mtl-only":
         return "Supervised Multi-Task Learning using pretrained Transformers and contrastive learning"
     elif prediction_source == "supervised-mtl-novelty-prompt-validity":
+        return "Mixed GPT-3 and Multi-Task Learning"
+    elif prediction_source == "supervised-mtl-argrel-only":
+        return "Supervised Multi-Task Learning using pretrained Transformers"
+    elif prediction_source == "supervised-mtl-argrel-novelty-prompt-validity":
         return "Mixed GPT-3 and Multi-Task Learning"
 
 def get_approach_abstract(prediction_source):
@@ -84,12 +89,19 @@ Our supervised approach uses Multi-Task Learning (MTL) for predicting novelty an
         return """
 For our mixed approach, we combine two models for predictions of the tasks separately: we use OpenAI's GPT-3 for the classification of validity labels, which is trained in the same way as the model in our GPT-3 few-shot prompt engineering approach, and roberta-large-mnli in a contrastive setting for the classification of the novelty labels. We choose these two methods as we observed them to achieve high results on their respective task.
         """
+    elif prediction_source == "supervised-mtl-argrel-only":
+        return """
+Our supervised approach uses Multi-Task Learning (MTL) for predicting novelty and validity labels. The model consists of a shared encoder with task-specific classification heads (single layer). As input, we feed topic, premise and conclusion, and switch uniformly at random during training between the novelty and validity task. In this particular version, we use a pretrained RoBERTa on NLI datasets as well as an argument relationship dataset as starting point, followed by finetuning using MTL on the training data.
+"""
+    elif prediction_source == "supervised-mtl-argrel-novelty-prompt-validity":
+        return """
+In this second mixed approach, we again combine two models for predictions of the tasks separately: we use OpenAI's GPT-3 for the classification of validity labels, which is trained in the same way as the model in our GPT-3 few-shot prompt engineering approach, and a supervised MTL model that was originally trained on an argument relationship task. Like before, we choose these two methods as we observed them to achieve high results on their respective task.
+"""
+
 
 def get_extra_data_description(prediction_source):
-    if prediction_source == "prompt-only":
-        return "No extra data was used"
-    elif prediction_source == "supervised-mtl-only":
-        return "No extra data was used"
+    return "No extra data was used"
+
 
 def prepare_email(prediction_source):
     subject_task = "[ArgMining22-SharedTask-SubtaskA]"
@@ -155,6 +167,10 @@ def main(args):
     elif args.prediction_source == 'supervised-mtl-only':
         preds = load_mtl_preds(test_data, args.prediction_file)
     elif args.prediction_source == 'supervised-mtl-novelty-prompt-validity':
+        preds = load_mixed_preds(test_data, args.prediction_source, args.prediction_file, args.second_prediction_file)
+    elif args.prediction_source == 'supervised-mtl-argrel-only':
+        preds = load_mtl_preds(test_data, args.prediction_file)
+    elif args.prediction_source == 'supervised-mtl-argrel-novelty-prompt-validity':
         preds = load_mixed_preds(test_data, args.prediction_source, args.prediction_file, args.second_prediction_file)
 
     write_submission_files(preds, email, args.prediction_source)

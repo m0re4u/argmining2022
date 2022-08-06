@@ -1,0 +1,39 @@
+
+SUBJECT: "[ArgMining22-SharedTask-SubtaskA] CLTeamL (5)"
+
+
+Team name: CLTeamL
+Team members:
+    - Name: Michiel van der Meer (Main contact)
+        Email: m.t.van.der.meer@liacs.leidenuniv.nl
+        Affiliation: Leiden Institute of Advanced Computer Science, Hybrid Intelligence Consortium
+        Webpage: https://liacs.leidenuniv.nl/~meermtvander/
+    - Name: Myrthe Reuver
+        Email: myrthe.reuver@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam
+        Webpage: https://myrthereuver.github.io/
+    - Name: Urja Khurana
+        Email: u.khurana@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://urjakh.github.io/
+    - Name: Lea Krause
+        Email: l.krause@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://lkra.github.io/
+    - Name: Selene Báez Santamaría
+        Email: s.baezsantamaria@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://selbaez.github.io/
+Approach title: Supervised Multi-Task Learning using pretrained Transformers
+Abstract: 
+In this second mixed approach, we again combine two models for predictions of the tasks separately: we use OpenAI's GPT-3 for the classification of validity labels, which is trained in the same way as the model in our GPT-3 few-shot prompt engineering approach, and a supervised MTL model that was originally trained on an argument relationship task. Like before, we choose these two methods as we observed them to achieve high results on their respective task.
+
+Extra training data: No extra data was used
+
+
+predictions are attached.
+
+Kind regards,
+
+Michiel van der Meer
+    

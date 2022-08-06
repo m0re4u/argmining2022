@@ -1,0 +1,39 @@
+
+SUBJECT: "[ArgMining22-SharedTask-SubtaskA] CLTeamL (4)"
+
+
+Team name: CLTeamL
+Team members:
+    - Name: Michiel van der Meer (Main contact)
+        Email: m.t.van.der.meer@liacs.leidenuniv.nl
+        Affiliation: Leiden Institute of Advanced Computer Science, Hybrid Intelligence Consortium
+        Webpage: https://liacs.leidenuniv.nl/~meermtvander/
+    - Name: Myrthe Reuver
+        Email: myrthe.reuver@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam
+        Webpage: https://myrthereuver.github.io/
+    - Name: Urja Khurana
+        Email: u.khurana@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://urjakh.github.io/
+    - Name: Lea Krause
+        Email: l.krause@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://lkra.github.io/
+    - Name: Selene Báez Santamaría
+        Email: s.baezsantamaria@vu.nl
+        Affiliation: Vrije Universiteit Amsterdam, Hybrid Intelligence Consortium
+        Webpage: https://selbaez.github.io/
+Approach title: Supervised Multi-Task Learning using pretrained Transformers
+Abstract: 
+Our supervised approach uses Multi-Task Learning (MTL) for predicting novelty and validity labels. The model consists of a shared encoder with task-specific classification heads (single layer). As input, we feed topic, premise and conclusion, and switch uniformly at random during training between the novelty and validity task. In this particular version, we use a pretrained RoBERTa on NLI datasets as well as an argument relationship dataset as starting point, followed by finetuning using MTL on the training data.
+
+Extra training data: No extra data was used
+
+
+predictions are attached.
+
+Kind regards,
+
+Michiel van der Meer
+    
