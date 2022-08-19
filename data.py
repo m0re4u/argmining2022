@@ -73,6 +73,10 @@ class SharedTaskData:
             print(f'Validity: {index[0]}, Novelty: {index[1]}')
             print(f'\t{len(group)}')
 
+        topics = [x[0]['topic'] for x in self]
+        print(f"Num topics: {len(set(topics))}")
+        print(f"{set(topics)}")
+
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         if self.test_set:
@@ -237,8 +241,9 @@ class SharedTaskConstants:
 
 
 if __name__ == "__main__":
-    print("Novelty - Train")
     train_data = SharedTaskData("TaskA_train.csv")
+    train_data.count_statistics()
+    print("Novelty - Train")
     train_dataset_novelty = train_data.convert_to_hf_dataset(label_target='novelty')
     print(train_dataset_novelty.features['novelty_str']._str2int)
     print(len(train_dataset_novelty))
@@ -248,8 +253,9 @@ if __name__ == "__main__":
     print(train_dataset_validity.features['validity_str']._str2int)
     print(len(train_dataset_validity))
 
-    print("Novelty - Val")
     val_data = SharedTaskData("TaskA_dev.csv")
+    val_data.count_statistics()
+    print("Novelty - Val")
     print(train_dataset_novelty.features)
     val_dataset_novelty = val_data.convert_to_hf_dataset(label_target='novelty',
                                                          features=train_dataset_novelty.features)
@@ -261,3 +267,8 @@ if __name__ == "__main__":
                                                           features=train_dataset_validity.features)
     print(val_dataset_validity.features['validity_str']._str2int)
     print(len(val_dataset_validity))
+
+    print("Novelty - Test")
+    test_data = SharedTaskData("TaskA_test.csv")
+    test_data.count_statistics()
+    print(len(test_data))
