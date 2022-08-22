@@ -20,6 +20,7 @@ class SharedTaskData:
     def __init__(self, filename, test_set=False):
         self.df = pd.read_csv(filename)
         self.test_set = test_set
+        self.df.drop('Topic-in-dev-split', axis=1, inplace=True, errors='ignore')
 
     def convert_to_hf_dataset(self, label_target=None, features=None):
         """
