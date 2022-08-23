@@ -177,6 +177,8 @@ def main(
         logging_strategy="epoch",
         metric_for_best_model="eval_org_f1_macro",
         greater_is_better=True,
+        gradient_accumulation_steps=1,
+        eval_accumulation_steps=1,
         load_best_model_at_end=True,
         evaluation_strategy="epoch",
         save_strategy="epoch",
