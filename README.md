@@ -23,7 +23,7 @@ See [here](https://docs.wandb.ai/guides/integrations/huggingface) on how to set 
 
 ### GPT3 models
 
-Firts, please create an account with [OpenAI](https://auth0.openai.com/u/signup). Get your API key and set it as an environmental variable. For running the *best* approach using GPT3 (for example on the test set), run:
+First, please create an account with [OpenAI](https://auth0.openai.com/u/signup). Get your API key and set it as an environmental variable. For running the *best* approach using GPT3 (for example on the test set), run:
 
 ```bash
 python prompting.py --n_shot 4 --prompt_style 5
